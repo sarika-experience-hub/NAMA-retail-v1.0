@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Nafath Verification — Azentio Finance</title>
-<link rel="stylesheet" href="css/styles.css?v=1788177009403">
+<link rel="stylesheet" href="css/styles.css?v=1792689703">
 </head>
 <body>
 <div class="device">
@@ -16,18 +16,23 @@
   <div class="page ">
     <div class="app-header"><a class="icon-btn" href="identity-verification.html" onclick="return true"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7" /></svg></a><div class="title">Nafath Verification</div></div>
     <div class="body">
+    <div class="stepper-wrap-ring">
+    <div class="ring-progress" style="--pct:50.0;"><span class="ring-label">2/4</span></div>
+    <div class="step-label"><span>Step <b>2</b> of 4</span><span>Nafath</span></div>
+  </div>
     <div class="center" style="padding-top:6px;">
-      <img src="images/illustration-nafath.svg" style="width:150px;height:150px;" alt="">
-      <div class="h2">Confirm it's you</div>
-      <div class="p">Open the Nafath app and select the number shown below to verify your identity.</div>
+      <img src="images/illustration-nafath.svg" style="width:132px;height:132px;" alt="">
+      <div class="h2">Verify your number with NAFATH Application</div>
+      <div class="p">Open the Nafath app and select the number shown below.</div>
       <div class="card center" style="padding:26px 0;">
         <div class="big-amount">25</div>
-        <div class="small" style="margin-top:8px;">This code is only valid for a short time</div>
-        <div class="countdown" style="margin-top:10px;" data-countdown="01:53" data-expired-text="Nafath request expired" data-expired-href="registration-halted.html" data-expired-reason="nafath">⏱ <span class="cd-time">01:53</span></div>
+        <div class="small" style="margin-top:8px;">Select this number in the Nafath app</div>
       </div>
-    </div></div>
-    <div class="footer"><a class="btn btn-primary" href="nafath-success.html" data-nav ><span class="label">Open Nafath app</span><span class="spinner"></span></a><a class="btn-link" href="nafath-verification.html" data-nav >Didn't get it? Restart verification</a><a class="btn-link" href="registration-halted.html" data-halt-reason="nafath" data-nav>Simulate a failed check</a></div>
-    
+      <div class="otp-status" style="margin-top:14px;">Verification in progress</div>
+    </div>
+    </div>
+    <div class="footer"><a class="btn btn-primary" href="otp-verification.html" data-nav><span class="label">OK</span><span class="spinner"></span></a><a class="btn-link" href="registration-halted.html" data-halt-reason="nafath" data-nav>Simulate a failed check</a></div>
+
   </div>
   <div class="home-indicator"></div>
   </div>

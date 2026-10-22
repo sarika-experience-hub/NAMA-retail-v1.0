@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Verification Unsuccessful — Azentio Finance</title>
-<link rel="stylesheet" href="css/styles.css?v=1788177009403">
+<link rel="stylesheet" href="css/styles.css?v=1792689703">
 </head>
 <body>
 <div class="device">
@@ -24,11 +24,12 @@
     <div class="card">
       <div class="skel-row" data-check="tahaquq" data-service="Tahaquq" data-pass="Mobile number verified" data-skip="Mobile number verification" data-fail="Mobile number could not be matched to this ID"><div class="skel-check"></div><div class="skel-txt"></div><div class="skel-note"></div></div>
       <div class="skel-row" data-check="yakeen" data-service="Yakeen" data-pass="National ID validated" data-skip="National ID validation" data-fail="National ID could not be validated"><div class="skel-check"></div><div class="skel-txt"></div><div class="skel-note"></div></div>
-      <div class="skel-row" data-check="nafath" data-service="Nafath" data-pass="Nafath authentication" data-skip="Nafath authentication" data-fail="Nafath authentication timed out or was declined"><div class="skel-check"></div><div class="skel-txt"></div><div class="skel-note"></div></div>
+      <div class="skel-row" data-check="nafath" data-service="Nafath" data-pass="Nafath authentication" data-skip="Nafath authentication" data-fail="Nafath authentication was not completed"><div class="skel-check"></div><div class="skel-txt"></div><div class="skel-note"></div></div>
+      <div class="skel-row" data-check="otp" data-service="OTP" data-pass="Mobile OTP verified" data-skip="Mobile OTP verification" data-fail="The one-time code was not verified"><div class="skel-check"></div><div class="skel-txt"></div><div class="skel-note"></div></div>
     </div>
     <div class="insight-strip neutral">
       <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.3 9.2a2.6 2.6 0 1 1 3.9 2.5c-.8.4-1.2.9-1.2 1.8v.3"/><path d="M12 17h.01"/></svg>
-      <span>Checks run in order — Tahaquq, then Yakeen, then Nafath. The remaining checks are not performed once one fails.</span>
+      <span>Checks run in order — Tahaquq, Yakeen, Nafath, then the mobile OTP. The remaining checks are not performed once one fails.</span>
     </div>
     </div>
     <div class="footer"><a class="btn btn-primary" href="faq.html" data-nav><span class="label">Contact support</span><span class="spinner"></span></a><a class="btn-link" href="splash.html" data-nav>Back to start</a></div>

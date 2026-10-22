@@ -5,40 +5,63 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
 :root{
-  /* Azentio brand palette (flat colors only, no gradients) */
-  --primary:#2ED88E;
-  --primary-dark:#16303D;
-  --primary-deep:#146B47;
-  --primary-light:#D4FFEF;
-  --slider-track:#A9EDCB;
-  --ink:#16303D;
-  --body-text:#50636D;
-  --muted:#5d6468;
-  --line:#E8EAEC;
-  --field-border:#C4CDD3;
-  --label-color:#16303D;
-  --surface:#FFFFFF;
-  --bg:#fff;
-  --danger:#E5484D;
-  --danger-light:#FDECEC;
-  --success:#2ED88E;
-  --warning:#D98C1F;
-  --warning-light:#FCF2E1;
-  --radius-sm:10px;
-  --radius-md:20px;
-  --radius-lg:28px;
+  /* NAMA Cards design system — tokens from docs/figma, sections 1-2.
+     Token names in comments are the client's own (color-*). */
+
+  /* Brand base */
+  --primary:#003366;            /* color-primary-navy */
+  --primary-dark:#001E40;       /* color-dark-navy */
+  --primary-deep:#001E40;
+  --sidebar-blue:#003A70;       /* color-sidebar-blue */
+  --primary-light:#E6EDF5;      /* light navy tint, derived */
+  --slider-track:#C3C6D1;
+
+  /* Typography */
+  --ink:#1C2434;                /* color-text-primary */
+  --body-text:#43474F;          /* color-text-secondary */
+  --muted:#606D7A;              /* color-text-tertiary */
+  --text-disabled:#94A3B8;      /* color-text-disabled */
+  --text-inverse:#FFFFFF;       /* color-text-inverse */
+  --label-color:#1C2434;
+
+  /* Surfaces */
+  --surface:#FFFFFF;            /* color-surface-card */
+  --bg:#FAFCFE;                 /* color-surface-bg, lightened further */
+  --fill:#E6E8EB;               /* color-surface-input — disabled / read-only fills */
+  --overlay:#1C2434CC;          /* color-surface-overlay */
+
+  /* Borders */
+  --line:#E2E8F0;               /* color-border-default */
+  --field-border:#C3C6D1;       /* color-border-strong */
+  --focus-border:#003366;       /* color-border-focus */
+  --primary-hover:#003D7A;      /* button hover — one step lighter only */
+  --primary-pressed:#00264D;    /* button pressed — one step darker only */
+  --focus-ring:rgba(0,51,102,.18);
+
+  /* Semantic */
+  --success:#10B981;            /* color-semantic-success */
+  --success-light:#E7F8F1;
+  --warning:#F59E0B;            /* color-semantic-warning */
+  --warning-light:#FEF3DC;
+  --danger:#E53E3E;             /* color-semantic-error */
+  --danger-light:#FCEBEB;
+  --info:#003366;               /* color-semantic-info */
+
+  --radius-sm:6px;
+  --radius-md:10px;
+  --radius-lg:14px;
   --radius-pill:999px;
-  --shadow-sm:0 2px 8px rgba(22,26,35,.06);
-  --shadow-card:0 10px 28px rgba(22,26,35,.07);
-  --shadow-md:0 8px 24px rgba(22,26,35,.10);
-  --shadow-lg:0 20px 48px rgba(22,26,35,.18);
+  --shadow-sm:0 1px 2px rgba(28,36,52,.05);
+  --shadow-card:0 1px 3px rgba(28,36,52,.06);
+  --shadow-md:0 4px 12px rgba(28,36,52,.08);
+  --shadow-lg:0 12px 32px rgba(28,36,52,.14);
   --ease:cubic-bezier(.4,0,.2,1);
   --ease-spring:cubic-bezier(.34,1.56,.64,1);
 }
 
 *,*::before,*::after{ box-sizing:border-box; }
 html,body{ height:100%; }
-a{ text-decoration:none; }
+a{ text-decoration:none; color:inherit; }
 body{
   margin:0;
   font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
@@ -172,7 +195,7 @@ body{
 
 /* ---------------- Buttons ---------------- */
 .btn{
-  position:relative; overflow:hidden; border:none; border-radius:var(--radius-pill);
+  position:relative; overflow:hidden; border:none; border-radius:var(--radius-sm);
   padding:15px 20px; font-size:15px; font-weight:700; font-family:inherit; cursor:pointer;
   display:flex; align-items:center; justify-content:center; gap:8px;
   transition:transform .12s var(--ease), box-shadow .2s var(--ease), opacity .2s var(--ease);
@@ -219,7 +242,7 @@ body{
 
 /* spinner */
 .spinner{ width:18px; height:18px; border-radius:50%; border:2.5px solid rgba(255,255,255,.4); border-top-color:#fff; animation:spin .7s linear infinite; }
-.spinner.dark{ border:2.5px solid rgba(46,216,142,.2); border-top-color:var(--primary); }
+.spinner.dark{ border:2.5px solid rgba(0,51,102,.2); border-top-color:var(--primary); }
 @keyframes spin{ to{ transform:rotate(360deg); } }
 
 /* ---------------- Inputs ---------------- */
@@ -279,7 +302,7 @@ body{
 .country-list::-webkit-scrollbar{ width:4px; }
 .country-list::-webkit-scrollbar-thumb{ background:var(--line); border-radius:2px; }
 .country-item{ display:flex; align-items:center; gap:10px; padding:9px 16px; font-size:13px; cursor:pointer; transition:background .12s; }
-.country-item:active{ background:var(--bg); }
+.country-item:active{ background:var(--fill); }
 .country-item .flag{ font-size:15px; }
 .country-item .name{ flex:1; color:var(--ink); font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .country-item .code{ color:var(--muted); font-weight:700; font-size:12px; flex-shrink:0; }
@@ -428,7 +451,7 @@ input[type="range"]::-moz-range-thumb{
   display:flex; align-items:center; justify-content:center; transition:all .18s var(--ease-spring); background:var(--surface);
 }
 .check-box svg{ width:13px; height:13px; opacity:0; transform:scale(.4); transition:all .18s var(--ease-spring); }
-.check-row.checked .check-box{ background:var(--primary); border-color:var(--primary); }
+.check-row.checked .check-box{ background:var(--primary); border-color:var(--primary); color:var(--text-inverse); }
 .check-row.checked .check-box svg{ opacity:1; transform:scale(1); }
 .check-row .txt{ font-size:12.5px; color:var(--body-text); line-height:1.5; }
 .check-row .txt b{ color:var(--ink); }
@@ -442,13 +465,13 @@ input[type="range"]::-moz-range-thumb{
 /* ---------------- Cards ---------------- */
 .card{
   background:var(--surface); border-radius:var(--radius-md); padding:18px; margin-bottom:14px;
-  box-shadow:var(--shadow-card); border:1px solid rgba(22,26,35,.03);
+  box-shadow:var(--shadow-sm); border:1px solid var(--line);
 }
 .card.tappable{ cursor:pointer; transition:transform .15s var(--ease), box-shadow .15s var(--ease); }
 .card.tappable:active{ transform:scale(.98); }
 .card-highlight{
-  background:#F0FFF9; border:1px solid rgba(46,216,142,.35);
-  box-shadow:0 10px 28px rgba(46,216,142,.14);
+  background:var(--primary-light); border:1px solid rgba(0,51,102,.22);
+  box-shadow:0 10px 28px rgba(0,51,102,.14);
 }
 .card-highlight .row{ border-bottom-color:rgba(22,26,35,.08); }
 .card-dashed{ border:1.5px dashed var(--line); background:transparent; box-shadow:none; text-align:center; color:var(--muted); }
@@ -486,8 +509,8 @@ input[type="range"]::-moz-range-thumb{
   box-shadow:var(--shadow-card);
 }
 .product-card.pf{ background:var(--primary-dark); color:#fff; }
-.product-card.cf{ background:#F1F4F6; border:1px solid var(--line); }
-.product-card.rf{ background:#F1F4F6; border:1px solid var(--line); }
+.product-card.cf{ background:var(--fill); border:1px solid var(--line); }
+.product-card.rf{ background:var(--fill); border:1px solid var(--line); }
 .product-card .pc-row{ display:flex; align-items:center; gap:12px; margin-bottom:10px; }
 .product-card .pc-row .icon-circle{ width:auto; height:auto; border-radius:0; flex-shrink:0; background:none; color:var(--primary); }
 .product-card .pc-row .icon-circle svg{ width:30px; height:30px; stroke-width:2.4; }
@@ -513,7 +536,7 @@ input[type="range"]::-moz-range-thumb{
 .product-card.pf.tappable,
 .product-card.cf.tappable,
 .product-card.rf.tappable{
-  background:#F0FFF9; box-shadow:none; border:1px solid rgba(46,216,142,.22);
+  background:var(--primary-light); box-shadow:none; border:1px solid rgba(0,51,102,.16);
 }
 .product-card.pf.tappable{ color:var(--ink); }
 .product-card.pf.tappable .pc-row .icon-circle{ color:var(--primary); }
@@ -534,7 +557,7 @@ input[type="range"]::-moz-range-thumb{
 
 /* badges */
 .badge{ display:inline-flex; align-items:center; font-size:10.5px; font-weight:700; padding:4px 10px; border-radius:var(--radius-pill); }
-.badge-success{ background:#E6F7EF; color:var(--success); }
+.badge-success{ background:var(--success-light); color:var(--success); }
 .badge-warning{ background:var(--warning-light); color:var(--warning); }
 .badge-neutral{ background:var(--line); color:var(--body-text); }
 .badge-brand{ background:var(--primary-light); color:var(--primary-dark); font-size:13px; padding:8px 16px; }
@@ -546,7 +569,7 @@ input[type="range"]::-moz-range-thumb{
 /* ---------------- Ring progress (circular) ---------------- */
 .ring-progress{
   position:relative; width:60px; height:60px; border-radius:50%; flex-shrink:0;
-  background:conic-gradient(var(--primary) calc(var(--pct,0)*1%), rgba(46,216,142,.15) 0);
+  background:conic-gradient(var(--primary) calc(var(--pct,0)*1%), rgba(0,51,102,.15) 0);
   display:flex; align-items:center; justify-content:center;
 }
 .ring-progress::before{
@@ -561,7 +584,7 @@ input[type="range"]::-moz-range-thumb{
   color:var(--primary-dark); font-weight:600; line-height:1.4;
 }
 .insight-strip svg{ flex-shrink:0; }
-.insight-strip.neutral{ background:var(--bg); color:var(--muted); font-weight:500; }
+.insight-strip.neutral{ background:var(--fill); color:var(--muted); font-weight:500; }
 
 /* ---------------- Quick actions (bento grid) ---------------- */
 .quick-actions{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:14px 0; }
@@ -651,18 +674,18 @@ input[type="range"]::-moz-range-thumb{
 .list-item .chev{ color:var(--muted); flex-shrink:0; }
 .page-payments .list-item .val{ font-weight:800; color:var(--primary-dark); }
 .icon-circle{
-  width:48px; height:48px; border-radius:15px; background:#F2F4F4; color:var(--primary);
+  width:48px; height:48px; border-radius:15px; background:var(--fill); color:var(--primary);
   display:flex; align-items:center; justify-content:center; flex-shrink:0;
 }
 .icon-circle svg{ width:24px; height:24px; stroke-width:2.4; }
-.icon-circle.gray{ background:#F2F4F4; color:var(--primary); }
+.icon-circle.gray{ background:var(--fill); color:var(--primary); }
 .icon-circle.strong{ color:var(--primary-dark); }
 .icon-circle.hero{ width:88px; height:88px; border-radius:26px; }
 .icon-circle.hero svg{ width:42px; height:42px; stroke-width:2.4; }
 .icon-circle[data-biometric-trigger]{ cursor:pointer; transition:transform .15s var(--ease), background .2s, color .2s; position:relative; z-index:1; }
 .icon-circle[data-biometric-trigger]:active{ transform:scale(.94); }
 .icon-circle[data-biometric-trigger].scanning{ animation:pulseDot 1s ease-in-out infinite; }
-.icon-circle[data-biometric-trigger].scan-success{ background:#E6F7EF; color:var(--primary); animation:none; }
+.icon-circle[data-biometric-trigger].scan-success{ background:var(--success-light); color:var(--success); animation:none; }
 .pulse-ring.scan{ animation:pulse 1.4s var(--ease) infinite; }
 
 /* App-wide: lighten line-icon stroke weight (headers, bottom-nav, chevrons, suffix icons, etc.) */
@@ -692,10 +715,10 @@ svg[stroke-width="3"]{ stroke-width:2.4; }
 .pin-dots{ display:flex; gap:14px; justify-content:center; margin:26px 0; }
 .pin-dots span{ width:16px; height:16px; border-radius:50%; border:2px solid var(--field-border); transition:all .2s var(--ease-spring); }
 .pin-dots span.filled{ background:var(--primary); border-color:var(--primary); transform:scale(1.15); }
-.pin-dots span.error{ background:#D64545; border-color:#D64545; }
+.pin-dots span.error{ background:var(--danger); border-color:var(--danger); }
 .pin-dots.shake{ animation:shake .4s var(--ease); }
 .pin-status{ min-height:18px; text-align:center; font-size:13px; font-weight:600; color:var(--body-text); margin:-10px 0 6px; transition:color .15s; }
-.pin-status.error{ color:#D64545; }
+.pin-status.error{ color:var(--danger); }
 .keypad{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:20px; max-width:280px; margin-left:auto; margin-right:auto; }
 .keypad button{
   aspect-ratio:1; border-radius:50%; border:none; background:var(--surface); font-size:20px; font-weight:700; color:var(--ink);
@@ -719,7 +742,7 @@ svg[stroke-width="3"]{ stroke-width:2.4; }
 
 /* ---------------- Success / status ---------------- */
 .status-icon{ width:88px; height:88px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:8px auto 20px; }
-.status-icon.success{ background:#E6F7EF; color:var(--primary); }
+.status-icon.success{ background:var(--success-light); color:var(--success); }
 .status-icon.error{ background:var(--danger-light); color:var(--danger); }
 .status-icon svg{ width:44px; height:44px; }
 .check-draw{ stroke-dasharray:48; stroke-dashoffset:48; animation:draw .5s .15s var(--ease) forwards; }
@@ -805,7 +828,6 @@ svg[stroke-width="3"]{ stroke-width:2.4; }
 }
 .consent-close svg{ width:18px; height:18px; }
 .consent-close:active{ opacity:.6; }
-.simah-logo{ display:block; height:52px; width:auto; margin:8px 0 18px; }
 .consent-text{ margin-bottom:0; }
 
 /* bottom sheet used for terms */
@@ -914,7 +936,7 @@ svg[stroke-width="3"]{ stroke-width:2.4; }
   font-family:inherit; font-weight:700; cursor:pointer; transition:opacity .15s var(--ease), transform .1s var(--ease);
 }
 .confirm-actions button:active{ opacity:.75; transform:scale(.98); }
-.confirm-btn-cancel{ background:var(--bg); color:var(--ink); }
+.confirm-btn-cancel{ background:var(--fill); color:var(--ink); }
 .confirm-btn-danger{ background:var(--danger-light); color:var(--danger); }
 
 /* date display field (button-styled input) */
@@ -983,13 +1005,13 @@ svg[stroke-width="3"]{ stroke-width:2.4; }
 }
 .card-face::after{
   content:""; position:absolute; right:-46px; top:-30px; width:210px; height:210px;
-  border-radius:50%; background:radial-gradient(circle at 30% 30%, rgba(46,216,142,.30), rgba(46,216,142,0) 68%);
+  border-radius:50%; background:radial-gradient(circle at 30% 30%, rgba(16,185,129,.34), rgba(16,185,129,0) 70%);
   pointer-events:none;
 }
 .cf-brand{ font-size:17px; font-weight:800; letter-spacing:.04em; position:relative; z-index:1; }
 .cf-mark{
   position:absolute; left:50%; top:52%; transform:translate(-50%,-50%);
-  width:96px; height:96px; opacity:.22; color:var(--primary);
+  width:118px; height:118px; opacity:.20; color:var(--success);
 }
 .cf-schemes{ position:absolute; right:20px; top:52px; display:flex; flex-direction:column; align-items:flex-end; gap:9px; z-index:1; }
 .cf-mada{ display:flex; flex-direction:column; align-items:flex-end; gap:2px; font-size:9.5px; font-weight:700; letter-spacing:.06em; opacity:.95; }
@@ -1052,7 +1074,7 @@ svg[stroke-width="3"]{ stroke-width:2.4; }
 .balance-card .bc-amt .dec{ font-size:18px; }
 .balance-card .bc-sub{ font-size:11.5px; color:var(--muted); margin-top:5px; }
 .bc-eye{
-  flex-shrink:0; width:36px; height:36px; border-radius:50%; border:none; background:#F2F4F4;
+  flex-shrink:0; width:36px; height:36px; border-radius:50%; border:none; background:var(--fill);
   color:var(--primary-dark); display:flex; align-items:center; justify-content:center; cursor:pointer;
   transition:transform .15s var(--ease);
 }
@@ -1083,7 +1105,7 @@ svg[stroke-width="3"]{ stroke-width:2.4; }
 .pick-item .pick-t{ font-size:14.5px; font-weight:700; color:var(--ink); }
 .pick-item .pick-d{ font-size:12px; color:var(--body-text); line-height:1.5; margin-top:3px; }
 .pick-item .pick-meta{ font-size:11px; color:var(--muted); margin-top:7px; display:flex; align-items:center; gap:5px; }
-.pick-item.on{ border-color:var(--primary); background:#F4FFFA; }
+.pick-item.on{ border-color:var(--primary); background:var(--primary-light); }
 .pick-item.on .pick-radio{ border-color:var(--primary); }
 .pick-item.on .pick-radio::after{ transform:scale(1); }
 .pick-item .pick-icon{ flex-shrink:0; color:var(--primary); }
@@ -1115,7 +1137,7 @@ svg[stroke-width="3"]{ stroke-width:2.4; }
 .txn-logo svg{ width:20px; height:20px; }
 .txn-logo.tint-shop{ color:#D9642F; border-color:#F7E2D6; background:#FDF6F2; }
 .txn-logo.tint-food{ color:#3AA3C4; border-color:#DCEEF4; background:#F3FAFC; }
-.txn-logo.tint-load{ color:var(--primary-deep); border-color:#D7F5E7; background:#F2FFF9; }
+.txn-logo.tint-load{ color:var(--primary); border-color:#C3D4E6; background:var(--primary-light); }
 .txn-body{ flex:1; min-width:0 }
 .txn-name{ font-size:13.5px; font-weight:700; color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .txn-date{ font-size:11.5px; color:var(--muted); margin-top:2px; }
@@ -1200,7 +1222,7 @@ svg[stroke-width="3"]{ stroke-width:2.4; }
   align-items:center; gap:12px;
 }
 .empty .em-ico{
-  width:58px; height:58px; border-radius:18px; background:#F2F4F4; color:var(--muted);
+  width:58px; height:58px; border-radius:18px; background:var(--fill); color:var(--muted);
   display:flex; align-items:center; justify-content:center;
 }
 .empty .em-ico svg{ width:27px; height:27px; }
@@ -1292,7 +1314,7 @@ svg[stroke-width="3"]{ stroke-width:2.4; }
 .upload-row .u-sub{ font-size:11.5px; color:var(--muted); margin-top:2px; }
 .upload-row .u-act{ font-size:12px; font-weight:800; color:var(--primary-dark); flex-shrink:0; }
 .upload-row.done{ border-style:solid; border-color:var(--success); }
-.upload-row.done .u-ico{ background:#E6F7EF; color:var(--success); }
+.upload-row.done .u-ico{ background:var(--success-light); color:var(--success); }
 .upload-row.done .u-act{ color:var(--success); }
 
 /* application tracker */
@@ -1311,7 +1333,7 @@ svg[stroke-width="3"]{ stroke-width:2.4; }
   display:flex; align-items:center; justify-content:center;
   background:var(--line); color:var(--muted);
 }
-.verify-row.done .verify-ico{ background:#E6F7EF; color:var(--success); }
+.verify-row.done .verify-ico{ background:var(--success-light); color:var(--success); }
 .verify-txt{ flex:1; min-width:0; }
 .verify-name{ font-size:13.5px; font-weight:700; color:var(--ink); }
 .verify-sub{ font-size:11.5px; color:var(--muted); margin-top:2px; }
@@ -1322,9 +1344,372 @@ svg[stroke-width="3"]{ stroke-width:2.4; }
 .field-label{ font-size:12.5px; font-weight:700; color:var(--body-text); margin:14px 0 8px; }
 .pick-list.compact .pick-item{ padding:11px 13px; margin-bottom:8px; }
 .pick-list.compact .pick-t{ font-size:13.5px; }
-.input.computed{ background:var(--bg); color:var(--muted); border-style:dashed; }
+.input.computed{ background:var(--fill); color:var(--muted); border-style:dashed; }
 .tag-row{ display:flex; flex-wrap:wrap; gap:7px; margin:-6px 0 16px; }
 .search-row{ display:flex; align-items:center; gap:10px; }
 .search-row .field{ flex:1; margin-bottom:0; }
 .search-row .btn-link{ flex-shrink:0; padding:0; }
 .status-line{ margin:10px 0 14px; }
+
+/* .field sets display:flex, which beats the UA [hidden] rule — restore it */
+[hidden]{ display:none !important; }
+
+
+/* ==========================================================================
+   Interaction and refinement pass (figma sections 3, 4, 7)
+   Sober surfaces, a real state model for every control, visible focus.
+   ========================================================================== */
+
+/* --- buttons: default / hover / pressed / focus / disabled --- */
+.btn{ transition:background-color .15s var(--ease), border-color .15s var(--ease),
+      box-shadow .15s var(--ease), color .15s var(--ease), transform .1s var(--ease); }
+.btn:active{ transform:translateY(1px) scale(1); }
+.btn:focus-visible{ outline:none; box-shadow:0 0 0 3px var(--focus-ring); }
+
+.btn-primary{ background:var(--primary); color:var(--text-inverse); box-shadow:none; }
+.btn-primary:hover{ background:var(--primary-hover); }
+.btn-primary:active{ background:var(--primary-pressed); box-shadow:none; }
+
+.btn-secondary{ background:var(--surface); color:var(--primary); border:1px solid var(--primary); box-shadow:none; }
+.btn-secondary:hover{ background:#F4F7FB; border-color:var(--primary-hover); }
+.btn-secondary:active{ background:var(--fill); border-color:var(--primary-pressed); }
+
+.btn-outline{ background:var(--surface); color:var(--primary); border:1px solid var(--field-border); }
+.btn-outline:hover{ background:#F4F7FB; border-color:var(--muted); }
+.btn-outline:active{ background:var(--fill); }
+
+.btn[disabled], .btn:disabled{
+  background:var(--line); color:var(--text-disabled); border-color:transparent;
+  box-shadow:none; cursor:not-allowed; transform:none;
+}
+
+/* --- inputs: clear focus, quiet default --- */
+.field .input{ transition:border-color .15s var(--ease), box-shadow .15s var(--ease), background-color .15s var(--ease); }
+.field .input:hover{ border-color:var(--muted); }
+.field .input:focus{ border-color:var(--focus-border); box-shadow:0 0 0 3px var(--focus-ring); }
+.field .input[readonly], .field .input:disabled{ background:var(--fill); color:var(--muted); border-color:var(--line); }
+
+/* --- tappable rows: give them an actual hover and press --- */
+.list-item, .pick-item, .track-card, .card.tappable, .product-card.tappable, .txn-row{
+  transition:background-color .15s var(--ease), border-color .15s var(--ease), box-shadow .15s var(--ease);
+}
+.list-item:hover, .txn-row:hover{ background:var(--primary-light); }
+.pick-item:hover{ border-color:var(--field-border); background:var(--bg); }
+.pick-item.on:hover{ border-color:var(--primary); background:var(--primary-light); }
+.track-card:hover, .card.tappable:hover, .product-card.tappable:hover{
+  border-color:var(--field-border); box-shadow:var(--shadow-md);
+}
+a:focus-visible, button:focus-visible, .pick-item:focus-visible, .check-row:focus-visible{
+  outline:2px solid var(--focus-border); outline-offset:2px; border-radius:var(--radius-sm);
+}
+
+/* --- status badges: pill, tint, matching border, leading dot (section 4) --- */
+.badge{ border:1px solid transparent; gap:5px; }
+.badge::before{
+  content:''; width:5px; height:5px; border-radius:50%; background:currentColor; flex-shrink:0;
+}
+.badge-success{ background:var(--success-light); color:var(--success); border-color:rgba(16,185,129,.35); }
+.badge-warning{ background:var(--warning-light); color:#B45309; border-color:rgba(245,158,11,.4); }
+.badge-neutral{ background:var(--fill); color:var(--muted); border-color:var(--line); }
+.badge-brand{ background:var(--primary-light); color:var(--primary); border-color:rgba(0,51,102,.28); }
+
+/* --- alert banners: semantic left rule over a tint (section 3) --- */
+.insight-strip{
+  border-radius:var(--radius-sm); border-left:3px solid var(--primary);
+  background:var(--primary-light); color:var(--primary); font-weight:600;
+}
+.insight-strip.neutral{
+  border-left-color:var(--field-border); background:var(--fill); color:var(--body-text); font-weight:500;
+}
+
+/* --- surfaces: quieter cards on a lighter ground --- */
+.card{ box-shadow:var(--shadow-sm); border:1px solid var(--line); }
+.kv-list, .track-card, .upload-row{ border-radius:var(--radius-md); }
+.icon-circle{ border-radius:var(--radius-sm); }
+.avatar{ border-radius:var(--radius-md); }
+
+/* composite fields carry their border on the row, not the inner input —
+   give them the same focus treatment as a plain field */
+.sar-input-row:focus-within,
+.phone-input-row:focus-within,
+.input-wrap:focus-within{
+  border-color:var(--focus-border); box-shadow:0 0 0 3px var(--focus-ring);
+}
+
+/* these were authored when the page was white, so they never set a surface.
+   On a tinted page a card must paint its own background. */
+.track-card, .kv-list, .upload-row{ background:var(--surface); }
+
+/* row text inside a tappable anchor: explicit, never the UA link colour */
+.list-item .row-emphasis{ color:var(--ink); font-weight:700; font-size:13.5px; }
+.list-item .small{ color:var(--muted); }
+.list-item > svg{ color:var(--muted); flex-shrink:0; }
+.list-item:hover .row-emphasis{ color:var(--primary); }
+
+/* S-B03 terms: bilingual body, scrollable within the card */
+.terms-scroll{ max-height:300px; overflow-y:auto; -webkit-overflow-scrolling:touch; }
+.terms-body{ font-size:12.5px; line-height:1.65; color:var(--body-text); margin-bottom:14px; }
+.terms-divider{ height:1px; background:var(--line); margin:4px 0 16px; }
+.terms-ar{ direction:rtl; text-align:right; }
+.terms-ar .sec-head{ text-align:right; }
+
+/* --- disabled primary: must read as a disabled control, not as absence ---
+   On a near-white page a borderless light fill disappears, so give it an edge
+   and enough contrast on the label to stay legible. */
+.btn[disabled], .btn:disabled{
+  background:var(--fill); color:var(--muted);
+  border:1px solid var(--field-border); box-shadow:none;
+  cursor:not-allowed; transform:none; opacity:1;
+}
+
+/* --- secondary / reject: the lesser action, so quieter than the primary ---
+   A navy outline competed with (and when disabled, beat) the primary CTA. */
+.btn-secondary{
+  background:var(--surface); color:var(--body-text);
+  border:1px solid var(--field-border); font-weight:600;
+}
+.btn-secondary:hover{ background:#F4F7FB; border-color:var(--muted); color:var(--ink); }
+.btn-secondary:active{ background:var(--fill); border-color:var(--muted); }
+
+/* tracker card: separate the stage line from its action */
+.track-stage{ margin-bottom:0; }
+.track-card .btn{ margin-top:16px; }
+
+/* the search row zeroed its field margin, leaving the first card flush against it */
+.search-row{ margin-bottom:18px; }
+
+/* --- icon chips: tinted in the brand, not the disabled grey ---
+   .icon-circle had inherited --fill, which is the disabled / read-only token,
+   so every list icon sat on dead grey. The design tints chips by meaning. */
+.icon-circle{
+  background:var(--primary-light);
+  color:var(--primary);
+  border:1px solid rgba(0,51,102,.08);
+}
+.icon-circle.gray{ background:var(--bg); color:var(--muted); border-color:var(--line); }
+.icon-circle.strong{ background:var(--primary); color:var(--text-inverse); border-color:transparent; }
+
+/* semantic chips keep their own tint */
+.icon-circle.success{ background:var(--success-light); color:var(--success); border-color:rgba(16,185,129,.18); }
+.icon-circle.warning{ background:var(--warning-light); color:#B45309; border-color:rgba(245,158,11,.22); }
+.icon-circle.danger{ background:var(--danger-light); color:var(--danger); border-color:rgba(229,62,62,.18); }
+
+/* a tappable row lifts its chip slightly */
+.list-item:hover .icon-circle, .txn-row:hover .icon-circle{
+  background:#DCE7F3; border-color:rgba(0,51,102,.16);
+}
+
+/* --- secondary CTA: tonal, not outlined ---
+   A white fill with a grey border is the input-field recipe, so an outlined
+   secondary read as a text box. A tonal fill keeps it unmistakably a button
+   while staying clearly subordinate to the solid primary. */
+.btn-secondary{
+  background:#DEE9F5; color:var(--primary);
+  border:none; font-weight:700;
+}
+.btn-secondary:hover{ background:#CFDFF0; color:var(--primary); border:none; }
+.btn-secondary:active{ background:#C2D5EA; border:none; }
+.btn-secondary[disabled], .btn-secondary:disabled{
+  background:var(--fill); color:var(--muted); border:1px solid var(--field-border);
+}
+
+/* --- document rows: a card per file, with type, size and date --- */
+.doc-row{
+  display:flex; align-items:center; gap:12px;
+  background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-md);
+  padding:12px 14px; margin-bottom:10px;
+  transition:border-color .15s var(--ease), box-shadow .15s var(--ease), background-color .15s var(--ease);
+}
+.doc-row:hover{ border-color:var(--field-border); box-shadow:var(--shadow-sm); }
+.doc-row:active{ background:var(--primary-light); }
+.doc-row .icon-circle{ width:40px; height:40px; }
+.doc-row .icon-circle svg{ width:20px; height:20px; }
+.doc-txt{ flex:1; min-width:0; }
+.doc-name{ font-size:13.5px; font-weight:700; color:var(--ink); display:flex; align-items:center; gap:7px; flex-wrap:wrap; }
+.doc-name .badge{ font-size:9.5px; padding:2px 7px; }
+.doc-meta{ font-size:11.5px; color:var(--muted); margin-top:3px; }
+.doc-dl{
+  flex-shrink:0; width:34px; height:34px; border-radius:var(--radius-sm);
+  display:flex; align-items:center; justify-content:center;
+  color:var(--primary); background:var(--primary-light);
+}
+.doc-row:hover .doc-dl{ background:#CFDFF0; }
+
+/* --- icon accent: Success Green on a light tint ---
+   Navy carries structure and actions; green carries iconography. Keeping the
+   two apart stops the UI reading as one flat block of navy. */
+.icon-circle{
+  background:#E8F9F1;
+  color:var(--success);
+  border:1px solid rgba(16,185,129,.16);
+}
+.list-item:hover .icon-circle, .txn-row:hover .icon-circle, .doc-row:hover .icon-circle{
+  background:#D7F3E7; border-color:rgba(16,185,129,.30);
+}
+/* explicit variants keep their own meaning */
+.icon-circle.brand{ background:var(--primary-light); color:var(--primary); border-color:rgba(0,51,102,.10); }
+.icon-circle.gray{ background:var(--bg); color:var(--muted); border-color:var(--line); }
+.icon-circle.strong{ background:var(--primary); color:var(--text-inverse); border-color:transparent; }
+.icon-circle.warning{ background:var(--warning-light); color:#B45309; border-color:rgba(245,158,11,.22); }
+.icon-circle.danger{ background:var(--danger-light); color:var(--danger); border-color:rgba(229,62,62,.18); }
+
+/* the download control stays an action, so it stays navy */
+.doc-dl{ background:var(--fill); color:var(--muted); }
+.doc-row:hover .doc-dl{ background:var(--primary-light); color:var(--primary); }
+
+/* --- consent text must actually be readable ---
+   12.5px at 1.5 leading is fine for a one-line toggle and poor for a legal
+   statement that runs to four lines. */
+.check-row{ padding:14px 0; gap:13px; }
+.check-row .txt{ font-size:13.5px; line-height:1.7; color:var(--body-text); }
+
+/* a legal consent is a block to read, not a casual toggle */
+.check-row.consent{
+  background:var(--surface);
+  border:1px solid var(--line); border-radius:var(--radius-md);
+  padding:14px; margin:6px 0 2px; align-items:flex-start;
+}
+.check-row.consent .txt{ color:var(--ink); font-size:13.5px; line-height:1.75; }
+.check-row.consent.checked{ border-color:rgba(0,51,102,.25); background:var(--primary-light); }
+.check-row.consent .check-box{ margin-top:2px; }
+
+/* consent: 14px reads better than 13.5 for legal copy; emphasis on the
+   material terms only — who is authorised, and which bureau. */
+.check-row.consent .txt{ font-size:14px; line-height:1.75; }
+.check-row .txt b{ font-weight:600; color:var(--ink); }
+
+/* ==========================================================================
+   NAMA form language (figma sections 5-6, Income & Expenses reference)
+   Uppercase letterspaced labels, ruled section headings, tinted inputs.
+   ========================================================================== */
+
+/* section headings carry a navy rule, as on the reference screens */
+.sec-head{
+  display:block; position:relative;
+  margin:24px 0 12px; padding-left:11px;
+  font-size:11.5px; font-weight:800; letter-spacing:.07em; text-transform:uppercase;
+  color:var(--primary);
+}
+.sec-head::before{
+  content:''; position:absolute; left:0; top:1px; bottom:1px;
+  width:3px; border-radius:2px; background:var(--primary);
+}
+.sec-head .h3{ margin:0; font-size:inherit; font-weight:inherit; letter-spacing:inherit; text-transform:inherit; color:inherit; }
+.sec-head a{
+  position:absolute; right:0; top:0;
+  font-size:11.5px; font-weight:700; letter-spacing:.02em; text-transform:none; color:var(--primary);
+}
+
+/* field labels: small, uppercase, letterspaced */
+.field label, .field-label{
+  font-size:10.5px; font-weight:800; letter-spacing:.06em; text-transform:uppercase;
+  color:var(--muted); margin-bottom:8px;
+}
+.field:focus-within label{ color:var(--primary); }
+.field label .req, .field-label .req{ letter-spacing:0; }
+
+/* inputs sit on a soft tint, lifting to white on focus */
+.field .input, .sar-input-row, .phone-input-row, .input-wrap{
+  background:#F2F5F9; border-color:var(--line);
+}
+.field .input:focus{ background:var(--surface); }
+.sar-input-row:focus-within, .phone-input-row:focus-within, .input-wrap:focus-within{ background:var(--surface); }
+.sar-input-row .input, .phone-input-row .input, .input-wrap .input{ background:transparent; }
+.sar-prefix{ background:#E6EBF2; color:var(--body-text); }
+.field .input::placeholder{ color:#94A3B8; }
+
+/* upload: neutral while pending, green once done — the state should read */
+.upload-row .u-ico{ background:var(--fill); color:var(--muted); border:1px solid var(--line); }
+.upload-row.done .u-ico{ background:#E8F9F1; color:var(--success); border-color:rgba(16,185,129,.22); }
+
+/* progress ring uses the green completion language of the reference stepper */
+.ring-progress{ background:conic-gradient(var(--success) calc(var(--pct,0)*1%), rgba(16,185,129,.16) 0); }
+.ring-progress .ring-label{ color:var(--primary); }
+
+
+/* verification rows use the same icon chip language as the rest of the app:
+   green on a light tint, rounded square. Completion fills it so the state
+   still reads without falling back to grey. */
+.verify-ico{
+  border-radius:var(--radius-sm);
+  background:#E8F9F1; color:var(--success);
+  border:1px solid rgba(16,185,129,.16);
+}
+.verify-row.done .verify-ico{
+  background:var(--success); color:var(--text-inverse);
+  border-color:transparent;
+}
+
+/* upload chips follow the same icon language: green tint pending, filled when done */
+.upload-row .u-ico{ background:#E8F9F1; color:var(--success); border:1px solid rgba(16,185,129,.16); }
+.upload-row.done .u-ico{ background:var(--success); color:var(--text-inverse); border-color:transparent; }
+
+/* informational panels use the light corporate green rather than grey */
+.insight-strip.neutral{
+  background:#E8F9F1;
+  border-left-color:var(--success);
+  color:var(--body-text);
+  font-weight:500;
+}
+.insight-strip.neutral svg{ color:var(--success); }
+
+/* --- one header icon size everywhere ---
+   Back arrows rendered at 18px and header actions at 24px, so the header
+   looked different from page to page. 20px in the 38px button sits between
+   the two and reads correctly for both. */
+.icon-btn svg,
+.header-actions .icon-btn svg{ width:20px; height:20px; }
+
+/* --- restore the dropdown chevron ---
+   The tinted-input rule used the `background` shorthand, which replaced the
+   select's chevron image. Longhands keep the tint and the arrow together. */
+.select-field select,
+.field.select-field select.input{
+  background-color:#F2F5F9;
+  background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="8"><path d="M1 1l5 5 5-5" stroke="%23606D7A" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+  background-repeat:no-repeat;
+  background-position:right 14px center;
+  padding-right:34px;
+  border:1.5px solid var(--field-border);
+}
+.select-field select:focus,
+.field.select-field select.input:focus{
+  background-color:var(--surface);
+  border-color:var(--focus-border); box-shadow:0 0 0 3px var(--focus-ring);
+}
+
+/* product cards: light corporate green surface, matching the icon accent */
+.product-card.cf, .product-card.rf, .product-card.pf.tappable{
+  background:#E8F9F1; border:1px solid rgba(16,185,129,.20);
+}
+.product-card.tappable:hover{ border-color:var(--success); background:#DCF5EA; }
+.product-card .pc-row .icon-circle{ color:var(--success); }
+.product-card .ptitle{ color:var(--ink); }
+.product-card .pc-chev{ color:var(--success); }
+
+/* the .tappable variants carry three classes, so match that specificity */
+.product-card.tappable,
+.product-card.pf.tappable,
+.product-card.cf.tappable,
+.product-card.rf.tappable{
+  background:#E8F9F1; border:1px solid rgba(16,185,129,.20);
+}
+.product-card.tappable:hover,
+.product-card.cf.tappable:hover,
+.product-card.rf.tappable:hover{ background:#DCF5EA; border-color:var(--success); }
+
+/* highlighted surfaces follow the same light corporate green */
+.card.card-highlight{
+  background:#E8F9F1; border:1px solid rgba(16,185,129,.20);
+}
+/* and the confirmation strip, so home has one accent rather than two */
+.insight-strip{
+  background:#E8F9F1; border-left-color:var(--success); color:var(--body-text);
+}
+.insight-strip svg{ color:var(--success); }
+
+/* selected choices use the same light corporate green */
+.pick-item.on{ border-color:var(--success); background:#E8F9F1; }
+.pick-item.on:hover{ border-color:var(--success); background:#DCF5EA; }
+.pick-item.on .pick-radio{ border-color:var(--success); }
+.pick-item.on .pick-radio::after{ background:var(--success); }

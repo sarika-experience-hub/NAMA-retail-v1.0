@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Verify Sign-in — Azentio Finance</title>
+<link rel="stylesheet" href="css/styles.css?v=1792689703">
+</head>
+<body>
+<div class="device">
+  <div class="screen">
+<div class="notch"></div><div class="statusbar"><span>9:41</span><div class="icons">
+  <svg class="icon-signal" viewBox="0 0 18 12" width="18" height="12" fill="currentColor"><rect x="0" y="7" width="3" height="5" rx=".5"/><rect x="5" y="5" width="3" height="7" rx=".5"/><rect x="10" y="3" width="3" height="9" rx=".5"/><rect x="15" y="0" width="3" height="12" rx=".5"/></svg>
+  <svg class="icon-battery" viewBox="0 0 25 12" width="22" height="11" fill="none"><rect x="0.5" y="0.5" width="20" height="11" rx="2.5" stroke="currentColor"/><rect x="2" y="2" width="17" height="8" rx="1" fill="currentColor"/><rect x="21.5" y="4" width="2" height="4" rx="1" fill="currentColor"/></svg>
+</div></div>
+  <div class="page ">
+    <div class="app-header"><a class="icon-btn" href="login-password.html" onclick="return true"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7" /></svg></a><div class="title">Verify Sign-in</div></div>
+    <div class="body">
+    <div class="center" style="padding-top:6px;">
+      <div class="icon-circle" style="width:64px;height:64px;margin:4px auto 18px;"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg></div>
+      <div class="h2">Confirm it's you</div>
+      <div class="p">We sent a one-time code to your registered mobile, ending 4821.</div>
+    </div>
+    <div data-otp data-next="@landing">
+      <div class="otp-row">
+        <input class="otp-box" inputmode="numeric" maxlength="1" aria-label="Digit 1">
+        <input class="otp-box" inputmode="numeric" maxlength="1" aria-label="Digit 2">
+        <input class="otp-box" inputmode="numeric" maxlength="1" aria-label="Digit 3">
+        <input class="otp-box" inputmode="numeric" maxlength="1" aria-label="Digit 4">
+      </div>
+      <div class="otp-status" data-otp-status></div>
+    </div>
+    <div class="hint" style="text-align:center;">Code length, validity and resend are not specified (Q-05, Q-47).</div>
+    <div class="insight-strip neutral">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><path d="M12 16h.01"/></svg>
+      <span>Candidate screen. The NAMA design shows the sign-in action but not this screen (Q-05).</span>
+    </div>
+    </div>
+    <div class="footer"><a class="btn btn-primary" data-landing href="home.html" data-nav><span class="label">Sign in</span><span class="spinner"></span></a></div>
+
+  </div>
+  <div class="home-indicator"></div>
+  </div>
+</div>
+<script src="js/app.js"></script>
+</body>
+</html>

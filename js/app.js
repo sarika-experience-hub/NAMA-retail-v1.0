@@ -301,7 +301,7 @@ function initOtpInputs(){
   if(!wrap) return;
   const boxes = Array.from(wrap.querySelectorAll('.otp-box'));
   const status = document.querySelector('[data-otp-status]');
-  const nextHref = wrap.dataset.next;
+  const nextHref = wrap.dataset.next === "@landing" ? landingPage() : wrap.dataset.next;
   let verifying = false;
 
   function goNext(){
@@ -383,7 +383,7 @@ function initHaltLinks(){
 function initHaltReason(){
   const rows = document.querySelectorAll(".skel-row[data-check]");
   if(!rows.length) return;
-  const order = ["tahaquq","yakeen","nafath"];
+  const order = ["tahaquq","yakeen","nafath","otp"];
   const param = sessionStorage.getItem("halt:reason");
   sessionStorage.removeItem("halt:reason");
   const reason = order.includes(param) ? param : "tahaquq";
@@ -570,6 +570,48 @@ function initBackHome(){
   });
 }
 
+
+/* ---------- ONB-BR-07 / ONB-BR-08: Saudi ID and date of birth ----------
+   The ID number has 10 digits; a National ID starts with 1 and an Iqama with
+   2; the check digit is validated. One date of birth is captured, by ID type:
+   Hijri for a National ID, Gregorian for an Iqama. */
+function isValidSaudiId(value){
+  const id = String(value || '').replace(/\D/g, '');
+  if(!/^[12]\d{9}$/.test(id)) return false;
+  let sum = 0;
+  for(let i = 0; i < 9; i++){
+    let d = Number(id[i]);
+    if(i % 2 === 0){ d *= 2; if(d > 9) d -= 9; }
+    sum += d;
+  }
+  return (10 - (sum % 10)) % 10 === Number(id[9]);
+}
+function idType(value){
+  const id = String(value || '').replace(/\D/g, '');
+  if(id.charAt(0) === '1') return 'national';
+  if(id.charAt(0) === '2') return 'iqama';
+  return null;
+}
+/* Show exactly one date-of-birth field, chosen by the ID type entered. */
+function initDobByIdType(){
+  const idInput = document.querySelector('[data-id-number]');
+  const hijri = document.querySelector('[data-dob="hijri"]');
+  const greg  = document.querySelector('[data-dob="gregorian"]');
+  const note  = document.querySelector('[data-dob-note]');
+  if(!idInput || !hijri || !greg) return;
+  function apply(){
+    const type = idType(idInput.value);
+    hijri.hidden = type !== 'national';
+    greg.hidden  = type !== 'iqama';
+    if(note){
+      note.hidden = !!type;
+      if(!type) note.textContent = 'Enter your ID number first — the date of birth follows the ID type.';
+    }
+  }
+  idInput.addEventListener('input', apply);
+  apply();
+}
+
 /* ---------- toast ---------- */
 function showToast(msg){
   let t = document.querySelector('.toast');
@@ -623,7 +665,7 @@ function initMasks(){
 /* ---------- field-level validation with specific messages ---------- */
 const VALIDATORS = {
   'email': { test:v=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v), msg:'Enter a valid email address' },
-  'saudi-id': { test:v=>/^\d{10}$/.test(v.replace(/\D/g,'')) && /^[12]/.test(v.replace(/\D/g,'')), msg:'Enter a valid 10-digit ID / Iqama number' },
+  'saudi-id': { test:v=>isValidSaudiId(v), msg:'Enter a valid 10-digit National ID (starts with 1) or Iqama (starts with 2)' },
   'mobile-sa': { test:v=>/^\+966 \d{2} \d{3} \d{4}$/.test(v), msg:'Enter a complete Saudi mobile number' },
   'phone-local': { test:v=>v.replace(/\D/g,'').length>=7, msg:'Enter a complete mobile number' },
   'iban-sa': { test:v=>v.replace(/\s/g,'').length===24, msg:'Saudi IBAN must be 24 characters (incl. SA)' },
@@ -1349,6 +1391,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
   initDatePicker();
   initPhoneField();
   initCarousel();
+  initDobByIdType();
   initCustomerState();
   initHomeContext();
   initBackHome();
