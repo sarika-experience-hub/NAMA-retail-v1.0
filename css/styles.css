@@ -1713,3 +1713,76 @@ a:focus-visible, button:focus-visible, .pick-item:focus-visible, .check-row:focu
 .pick-item.on:hover{ border-color:var(--success); background:#DCF5EA; }
 .pick-item.on .pick-radio{ border-color:var(--success); }
 .pick-item.on .pick-radio::after{ background:var(--success); }
+
+/* --- fields are white; grey is reserved for disabled and read-only ---
+   figma section 5 "Form Field States": Default / Hover / Focus / Filled are
+   white, only Disabled and Read-Only carry the grey fill. */
+.field .input,
+.sar-input-row, .phone-input-row, .input-wrap,
+.select-field select, .field.select-field select.input{
+  background-color:var(--surface);
+}
+.sar-prefix{ background:#F2F5F9; }
+
+/* the two states that stay grey */
+.field .input[readonly], .field .input:disabled, .input.computed,
+.select-field select:disabled{
+  background-color:var(--fill); color:var(--muted); border-color:var(--line);
+}
+
+/* ==========================================================================
+   Hover / press system
+   Rows get a soft inset wash and a chevron nudge; cards lift. Nothing uses a
+   hard full-bleed fill, which read as a blunt block.
+   ========================================================================== */
+
+/* --- list rows --- */
+.list-item{
+  padding-left:10px; padding-right:10px; margin-left:-10px; margin-right:-10px;
+  border-radius:var(--radius-md);
+  transition:background-color .18s var(--ease);
+}
+.list-item:hover{ background:#F1FAF6; }
+.list-item:active{ background:#E3F5EC; opacity:1; }
+.list-item > svg,
+.list-item .pc-chev{ transition:transform .18s var(--ease), color .18s var(--ease); }
+.list-item:hover > svg{ transform:translateX(3px); color:var(--success); }
+.list-item:hover .icon-circle{ background:#D7F3E7; border-color:rgba(16,185,129,.30); }
+.list-item:hover .row-emphasis{ color:var(--ink); }
+
+/* --- transaction rows --- */
+.txn-row{
+  padding-left:10px; padding-right:10px; margin-left:-10px; margin-right:-10px;
+  border-radius:var(--radius-md);
+}
+.txn-row:hover{ background:#F1FAF6; }
+
+/* --- cards and tiles lift rather than fill --- */
+.track-card, .doc-row, .card.tappable, .product-card.tappable, .quick-actions a, .card-tile{
+  transition:transform .18s var(--ease), box-shadow .18s var(--ease),
+             border-color .18s var(--ease), background-color .18s var(--ease);
+}
+.track-card:hover, .doc-row:hover, .card.tappable:hover, .quick-actions a:hover, .card-tile:hover{
+  transform:translateY(-2px); box-shadow:var(--shadow-md); border-color:rgba(16,185,129,.35);
+}
+.track-card:active, .doc-row:active, .card.tappable:active, .quick-actions a:active, .card-tile:active{
+  transform:translateY(0); box-shadow:var(--shadow-sm);
+}
+.product-card.tappable:hover,
+.product-card.cf.tappable:hover,
+.product-card.rf.tappable:hover{
+  transform:translateY(-2px); box-shadow:var(--shadow-md);
+  background:#DCF5EA; border-color:var(--success);
+}
+.quick-actions a:hover .icon-circle, .card-tile:hover .icon-circle{
+  background:#D7F3E7; border-color:rgba(16,185,129,.30);
+}
+
+/* --- option lists --- */
+.pick-item{ transition:background-color .18s var(--ease), border-color .18s var(--ease), transform .12s var(--ease); }
+.pick-item:hover{ background:#F1FAF6; border-color:rgba(16,185,129,.35); }
+.pick-item:active{ transform:scale(.995); }
+
+/* --- the download affordance follows its row --- */
+.doc-row .doc-dl{ transition:background-color .18s var(--ease), color .18s var(--ease); }
+.doc-row:hover .doc-dl{ background:#D7F3E7; color:var(--success); }
