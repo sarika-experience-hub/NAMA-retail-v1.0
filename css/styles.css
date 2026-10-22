@@ -1786,3 +1786,23 @@ a:focus-visible, button:focus-visible, .pick-item:focus-visible, .check-row:focu
 /* --- the download affordance follows its row --- */
 .doc-row .doc-dl{ transition:background-color .18s var(--ease), color .18s var(--ease); }
 .doc-row:hover .doc-dl{ background:#D7F3E7; color:var(--success); }
+
+/* ONB-BR-05 offers two parallel sign-in methods, not a primary and a fallback */
+.or-divider{
+  display:flex; align-items:center; gap:12px;
+  margin:18px 0; color:var(--muted);
+  font-size:10.5px; font-weight:800; letter-spacing:.1em; text-transform:uppercase;
+}
+.or-divider::before, .or-divider::after{
+  content:''; flex:1; height:1px; background:var(--line);
+}
+
+/* language switch sits in the header, compact, never stretched */
+.app-header .lang-switch{
+  flex-shrink:0; align-self:center; padding:2px; border-radius:var(--radius-pill);
+  background:var(--fill);
+}
+.app-header .lang-switch button{ font-size:11px; padding:5px 10px; border-radius:var(--radius-pill); }
+
+/* with no title to flex, the switch still needs pushing right */
+.app-header .lang-switch{ margin-left:auto; }
