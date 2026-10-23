@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Create Your Account — Azentio Finance</title>
-<link rel="stylesheet" href="css/styles.css?v=1792691543">
+<link rel="stylesheet" href="css/styles.css?v=1792740437">
 </head>
 <body>
 <div class="device">
@@ -17,8 +17,8 @@
     <div class="app-header"><a class="icon-btn" href="splash.html" onclick="return true"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7" /></svg></a><div class="title">Create Your Account</div></div>
     <div class="body">
     <div class="stepper-wrap-ring">
-    <div class="ring-progress" style="--pct:25.0;"><span class="ring-label">1/4</span></div>
-    <div class="step-label"><span>Step <b>1</b> of 4</span><span>Your details</span></div>
+    <div class="ring-progress" style="--pct:20.0;"><span class="ring-label">1/5</span></div>
+    <div class="step-label"><span>Step <b>1</b> of 5</span><span>Details</span></div>
   </div>
     <div class="h2">Create Your Account</div>
     <div class="p">Enter your details exactly as they appear on your National ID or Iqama.</div>
@@ -34,9 +34,38 @@
       </div>
       <div class="error-msg"></div>
     </div>
-    <div class="hint" data-dob-note>Enter your ID number first &mdash; the date of birth follows the ID type.</div>
-    <div class="field" data-dob="hijri" hidden><input class="input" type="text" placeholder="DD / MM / YYYY"><label>D.O.B &mdash; Hijri</label><div class="field-hint">Required for a National ID</div></div>
-    <div class="field" data-dob="gregorian" hidden><input class="input" type="text" placeholder="DD / MM / YYYY"><label>D.O.B &mdash; Gregorian</label><div class="field-hint">Required for an Iqama</div></div>
+    <div class="field date-field" data-dob="hijri" data-date-field="dobHijri" data-calendar="hijri"><label>D.O.B &mdash; Hijri</label><input class="input" data-date-display readonly placeholder="DD / MM / YYYY"><div class="suffix-icon icon-accent"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><line x1="3.5" y1="9.5" x2="20.5" y2="9.5"/><line x1="8" y1="2.5" x2="8" y2="6.5"/><line x1="16" y1="2.5" x2="16" y2="6.5"/></svg></div><div class="field-hint">Required for a National ID</div></div>
+    <div class="field date-field" data-dob="gregorian" data-date-field="dobGreg" hidden><label>D.O.B &mdash; Gregorian</label><input class="input" data-date-display readonly placeholder="DD / MM / YYYY"><div class="suffix-icon icon-accent"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><line x1="3.5" y1="9.5" x2="20.5" y2="9.5"/><line x1="8" y1="2.5" x2="8" y2="6.5"/><line x1="16" y1="2.5" x2="16" y2="6.5"/></svg></div><div class="field-hint">Required for an Iqama</div></div>
+  <div class="sheet-backdrop" data-date-sheet="dobHijri">
+    <div class="sheet-panel">
+      <div class="sheet-handle"></div>
+      <div class="sheet-title">Date of birth (Hijri)</div>
+      <div class="sheet-sub">As it appears on your National ID.</div>
+      <div class="date-select-row">
+        <select data-day aria-label="Day"></select>
+        <select data-month aria-label="Month"></select>
+        <select data-year aria-label="Year"></select>
+      </div>
+      <div class="sheet-age-warn">You must be at least 18 years old to register.</div>
+      <a class="btn btn-primary" data-date-confirm><span class="label">Confirm</span></a>
+      <a class="btn btn-secondary" data-date-cancel style="margin-top:8px;"><span class="label">Cancel</span></a>
+    </div>
+  </div>
+  <div class="sheet-backdrop" data-date-sheet="dobGreg">
+    <div class="sheet-panel">
+      <div class="sheet-handle"></div>
+      <div class="sheet-title">Date of birth (Gregorian)</div>
+      <div class="sheet-sub">As it appears on your Iqama.</div>
+      <div class="date-select-row">
+        <select data-day aria-label="Day"></select>
+        <select data-month aria-label="Month"></select>
+        <select data-year aria-label="Year"></select>
+      </div>
+      <div class="sheet-age-warn">You must be at least 18 years old to register.</div>
+      <a class="btn btn-primary" data-date-confirm><span class="label">Confirm</span></a>
+      <a class="btn btn-secondary" data-date-cancel style="margin-top:8px;"><span class="label">Cancel</span></a>
+    </div>
+  </div>
     <div class="check-row" data-required><div class="check-box"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path class="check-draw" d="M5 13l4 4 10-10"/></svg></div><div class="txt">I agree to the <a href="terms-conditions.html" data-nav>NAMA United Financing Company Terms &amp; Conditions</a></div></div>
     </div>
     <div class="footer"><a class="btn btn-primary" href="identity-verification.html" data-nav disabled data-requires-consent><span class="label">Register</span><span class="spinner"></span></a><a class="link-cta" href="login.html" data-nav><span>Already a Member?</span><b>Login here</b></a></div>

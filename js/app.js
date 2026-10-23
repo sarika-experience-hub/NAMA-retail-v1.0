@@ -592,24 +592,57 @@ function idType(value){
   if(id.charAt(0) === '2') return 'iqama';
   return null;
 }
-/* Show exactly one date-of-birth field, chosen by the ID type entered. */
+/* ONB-BR-08: one date of birth, by ID type. Hijri is shown by default
+   (a National ID starts with 1); entering an Iqama swaps it to Gregorian.
+   The field is never absent — hiding it made the form look incomplete. */
 function initDobByIdType(){
   const idInput = document.querySelector('[data-id-number]');
   const hijri = document.querySelector('[data-dob="hijri"]');
   const greg  = document.querySelector('[data-dob="gregorian"]');
-  const note  = document.querySelector('[data-dob-note]');
   if(!idInput || !hijri || !greg) return;
   function apply(){
-    const type = idType(idInput.value);
-    hijri.hidden = type !== 'national';
-    greg.hidden  = type !== 'iqama';
-    if(note){
-      note.hidden = !!type;
-      if(!type) note.textContent = 'Enter your ID number first — the date of birth follows the ID type.';
-    }
+    const iqama = idType(idInput.value) === 'iqama';
+    hijri.hidden = iqama;
+    greg.hidden  = !iqama;
   }
   idInput.addEventListener('input', apply);
   apply();
+}
+
+
+/* ---------- affordability calculator (S-A01) ----------
+   PRD-ONB-01: product, sub-product, monthly salary and tenure give the loan
+   amount, APR, instalment and admin fees. Salary is the input; the loan
+   amount is the result. */
+var CALC = { dbr: 0.33, flat: 0.09, apr: 17.28, feeRate: 0.01 };
+function initCalculator(){
+  const salary = document.querySelector('[data-calc-salary]');
+  const tenure = document.querySelector('[data-calc-tenure]');
+  if(!salary || !tenure) return;
+  const outLoan = document.querySelector('[data-calc-loan]');
+  const outApr  = document.querySelector('[data-calc-apr]');
+  const outEmi  = document.querySelector('[data-calc-emi]');
+  const outFee  = document.querySelector('[data-calc-fee]');
+  const sar = n => 'SAR ' + n.toLocaleString('en-US', { minimumFractionDigits:2, maximumFractionDigits:2 });
+
+  function recalc(){
+    const pay = Math.max(0, Number(salary.value) || 0);
+    const months = Number(tenure.value) || 24;
+    const years = months / 12;
+    // what the customer can afford each month, and what that supports
+    const maxEmi = pay * CALC.dbr;
+    const raw = (maxEmi * months) / (1 + CALC.flat * years);
+    const loan = Math.max(0, Math.floor(raw / 1000) * 1000);   // whole thousands
+    const total = loan * (1 + CALC.flat * years);
+    const emi = months ? total / months : 0;
+    if(outLoan) outLoan.textContent = sar(loan);
+    if(outApr)  outApr.textContent  = CALC.apr.toFixed(2) + '%';
+    if(outEmi)  outEmi.textContent  = sar(emi);
+    if(outFee)  outFee.textContent  = sar(loan * CALC.feeRate);
+  }
+  salary.addEventListener('input', recalc);
+  tenure.addEventListener('change', recalc);
+  recalc();
 }
 
 /* ---------- toast ---------- */
@@ -918,45 +951,64 @@ function initPhoneField(){
 }
 
 /* ---------- date of birth bottom sheet ---------- */
+/* ---------- date of birth pickers ----------
+   Several pickers can live on one screen, each bound to its own sheet by id,
+   and each can run a Gregorian or a Hijri calendar (ONB-BR-08). */
+var HIJRI_MONTHS = ['Muharram','Safar',"Rabi' al-Awwal","Rabi' al-Thani",
+  'Jumada al-Ula','Jumada al-Akhirah','Rajab',"Sha'ban",'Ramadan','Shawwal',
+  "Dhu al-Qi'dah",'Dhu al-Hijjah'];
+var GREG_MONTHS = ['January','February','March','April','May','June','July',
+  'August','September','October','November','December'];
+/* close enough for a prototype: the Hijri year runs ~1.0307x faster */
+function gregorianToHijriYear(gy){ return Math.round((gy - 622) * 1.0307); }
+
 function initDatePicker(){
-  const field = document.querySelector('[data-date-field]');
-  const sheet = document.querySelector('[data-date-sheet]');
-  if(!field || !sheet) return;
-  const display = field.querySelector('[data-date-display]');
-  const daySel = sheet.querySelector('[data-day]');
-  const monthSel = sheet.querySelector('[data-month]');
-  const yearSel = sheet.querySelector('[data-year]');
-  const confirmBtn = sheet.querySelector('[data-date-confirm]');
-  const warn = sheet.querySelector('.sheet-age-warn');
-  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  document.querySelectorAll('[data-date-field]').forEach(field => {
+    const key = field.getAttribute('data-date-field');
+    const sheet = key
+      ? document.querySelector('[data-date-sheet="' + key + '"]')
+      : document.querySelector('[data-date-sheet]');
+    if(!sheet) return;
 
-  if(!daySel.children.length){
-    for(let d=1;d<=31;d++) daySel.appendChild(new Option(d,d));
-    months.forEach((m,i)=> monthSel.appendChild(new Option(m,i+1)));
-    const nowY = new Date().getFullYear();
-    for(let y=nowY-18; y>=nowY-80; y--) yearSel.appendChild(new Option(y,y));
-    daySel.value = 15; monthSel.value = 6; yearSel.value = nowY-25;
-  }
+    const hijri = field.getAttribute('data-calendar') === 'hijri';
+    const months = hijri ? HIJRI_MONTHS : GREG_MONTHS;
+    const display = field.querySelector('[data-date-display]');
+    const daySel = sheet.querySelector('[data-day]');
+    const monthSel = sheet.querySelector('[data-month]');
+    const yearSel = sheet.querySelector('[data-year]');
+    const confirmBtn = sheet.querySelector('[data-date-confirm]');
+    const cancelBtn = sheet.querySelector('[data-date-cancel]');
+    const warn = sheet.querySelector('.sheet-age-warn');
 
-  function open(){ sheet.classList.add('open'); }
-  function close(){ sheet.classList.remove('open'); }
-
-  field.addEventListener('click', open);
-  sheet.addEventListener('click', e=>{ if(e.target===sheet) close(); });
-  sheet.querySelector('[data-date-cancel]').addEventListener('click', close);
-
-  confirmBtn.addEventListener('click', ()=>{
-    const d = Number(daySel.value), m = Number(monthSel.value), y = Number(yearSel.value);
-    const dob = new Date(y, m-1, d);
-    const age = (Date.now()-dob.getTime())/ (1000*60*60*24*365.25);
-    if(age < 18){
-      warn.classList.add('show');
-      return;
+    if(!daySel.children.length){
+      for(let d=1; d<=30; d++) daySel.appendChild(new Option(d,d));
+      months.forEach((m,idx) => monthSel.appendChild(new Option(m, idx+1)));
+      const nowG = new Date().getFullYear();
+      const top = hijri ? gregorianToHijriYear(nowG) : nowG;
+      // 18 is the minimum age, 80 a sensible floor
+      for(let y = top-18; y >= top-80; y--) yearSel.appendChild(new Option(y,y));
+      daySel.value = 14;
+      monthSel.value = hijri ? 8 : 3;
+      yearSel.value = top - 35;
     }
-    warn.classList.remove('show');
-    display.value = `${String(d).padStart(2,'0')} ${months[m-1].slice(0,3)} ${y}`;
-    display.classList.add('filled');
-    close();
+
+    const close = () => sheet.classList.remove('open');
+    field.addEventListener('click', () => sheet.classList.add('open'));
+    sheet.addEventListener('click', e => { if(e.target === sheet) close(); });
+    if(cancelBtn) cancelBtn.addEventListener('click', close);
+
+    confirmBtn.addEventListener('click', () => {
+      const d = Number(daySel.value), m = Number(monthSel.value), y = Number(yearSel.value);
+      // age gate: compare like with like, so convert the Hijri year first
+      const gYear = hijri ? Math.round(y / 1.0307 + 622) : y;
+      const age = (Date.now() - new Date(gYear, m-1, d).getTime()) / (1000*60*60*24*365.25);
+      if(age < 18){ if(warn) warn.classList.add('show'); return; }
+      if(warn) warn.classList.remove('show');
+      const pad = n => String(n).padStart(2,'0');
+      if(display) display.value = pad(d) + ' / ' + pad(m) + ' / ' + y + (hijri ? 'H' : '');
+      field.classList.add('filled');
+      close();
+    });
   });
 }
 
@@ -1392,6 +1444,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
   initPhoneField();
   initCarousel();
   initDobByIdType();
+  initCalculator();
   initCustomerState();
   initHomeContext();
   initBackHome();

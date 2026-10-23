@@ -1806,3 +1806,28 @@ a:focus-visible, button:focus-visible, .pick-item:focus-visible, .check-row:focu
 
 /* with no title to flex, the switch still needs pushing right */
 .app-header .lang-switch{ margin-left:auto; }
+
+/* date-of-birth picker: the whole field opens the sheet */
+.date-field{ cursor:pointer; }
+.date-field .input{ cursor:pointer; }
+.date-field .suffix-icon{ top:auto; bottom:30px; pointer-events:none; }
+.sheet-age-warn{ display:none; }
+.sheet-age-warn.show{ display:block; color:var(--danger); font-size:12.5px; font-weight:600; margin:6px 0 2px; }
+
+/* a picker field is readonly only because you choose rather than type —
+   it is editable, so it must not wear the disabled grey */
+.date-field .input[readonly]{
+  background-color:var(--surface);
+  color:var(--ink);
+  border-color:var(--field-border);
+  cursor:pointer;
+}
+.date-field .input[readonly]:hover{ border-color:var(--muted); }
+.date-field .input[readonly]::placeholder{ color:#94A3B8; }
+
+/* Arabic name block reads right to left */
+.kv-list.rtl{ direction:rtl; }
+.kv-list.rtl .kv-row .v{ text-align:left; }
+
+/* a neutral outcome — the customer chose it, so it is not an error */
+.status-icon.neutral{ background:var(--fill); color:var(--muted); }
