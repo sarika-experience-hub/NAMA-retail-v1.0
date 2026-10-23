@@ -1831,3 +1831,6 @@ a:focus-visible, button:focus-visible, .pick-item:focus-visible, .check-row:focu
 
 /* a neutral outcome — the customer chose it, so it is not an error */
 .status-icon.neutral{ background:var(--fill); color:var(--muted); }
+
+/* the NAMA mark is navy; knock it out to white on dark grounds */
+.on-dark{ filter:brightness(0) invert(1); }
