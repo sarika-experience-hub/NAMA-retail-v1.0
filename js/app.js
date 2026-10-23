@@ -262,38 +262,6 @@ function initPin(){
 }
 
 /* ---------- biometric login (tap-to-scan simulation) ---------- */
-function initBiometricLogin(){
-  const trigger = document.querySelector('[data-biometric-trigger]');
-  if(!trigger) return;
-  const ring = document.querySelector('[data-scan-ring]');
-  const title = document.querySelector('[data-scan-title]');
-  const sub = document.querySelector('[data-scan-sub]');
-  const nextHref = trigger.dataset.next;
-  const checkIcon = '<svg viewBox="0 0 24 24" width="42" height="42" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path class="check-draw" d="M5 13l4 4 10-10"/></svg>';
-  let done = false;
-
-  trigger.addEventListener('click', ()=>{
-    if(done) return;
-    done = true;
-    trigger.classList.add('scanning');
-    if(sub) sub.textContent = 'Scanning…';
-    setTimeout(()=>{
-      trigger.classList.remove('scanning');
-      trigger.classList.add('scan-success');
-      trigger.innerHTML = checkIcon;
-      if(ring) ring.classList.remove('scan');
-      if(title) title.textContent = 'Fingerprint recognized!';
-      if(sub) sub.textContent = 'Redirecting…';
-      setTimeout(()=>{
-        if(nextHref){
-          const page = document.querySelector('.page');
-          if(page) page.classList.add('page-exit');
-          setTimeout(()=> location.href = nextHref, 220);
-        }
-      }, 500);
-    }, 900);
-  });
-}
 
 /* ---------- OTP code input (auto-advance, paste support, auto-verify) ---------- */
 function initOtpInputs(){
@@ -383,10 +351,11 @@ function initHaltLinks(){
 function initHaltReason(){
   const rows = document.querySelectorAll(".skel-row[data-check]");
   if(!rows.length) return;
-  const order = ["tahaquq","yakeen","nafath","otp"];
+  // the sequence is whatever order the rows appear in, so this serves any journey
+  const order = Array.from(rows).map(r => r.dataset.check);
   const param = sessionStorage.getItem("halt:reason");
   sessionStorage.removeItem("halt:reason");
-  const reason = order.includes(param) ? param : "tahaquq";
+  const reason = order.includes(param) ? param : order[0];
   const failedAt = order.indexOf(reason);
   rows.forEach(row=>{
     const idx = order.indexOf(row.dataset.check);
@@ -1424,7 +1393,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
   initSwitches();
   initNumericSteppers();
   initPin();
-  initBiometricLogin();
   initOtpInputs();
   initCountdowns();
   initProcessing();
