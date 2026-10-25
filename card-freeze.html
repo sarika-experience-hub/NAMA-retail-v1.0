@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Freeze Card — NAMA</title>
+<link rel="stylesheet" href="css/styles.css?v=1792947311">
+</head>
+<body>
+<div class="device">
+  <div class="screen">
+<div class="notch"></div><div class="statusbar"><span>9:41</span><div class="icons">
+  <svg class="icon-signal" viewBox="0 0 18 12" width="18" height="12" fill="currentColor"><rect x="0" y="7" width="3" height="5" rx=".5"/><rect x="5" y="5" width="3" height="7" rx=".5"/><rect x="10" y="3" width="3" height="9" rx=".5"/><rect x="15" y="0" width="3" height="12" rx=".5"/></svg>
+  <svg class="icon-battery" viewBox="0 0 25 12" width="22" height="11" fill="none"><rect x="0.5" y="0.5" width="20" height="11" rx="2.5" stroke="currentColor"/><rect x="2" y="2" width="17" height="8" rx="1" fill="currentColor"/><rect x="21.5" y="4" width="2" height="4" rx="1" fill="currentColor"/></svg>
+</div></div>
+  <div class="page ">
+    <div class="app-header"><a class="icon-btn" href="card-controls.html" onclick="return true"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7" /></svg></a><div class="title">Freeze Card</div></div>
+    <div class="body">
+    <div class="card-face" data-card-face style="margin-bottom:18px;">
+      <div class="cf-top">
+        <div class="cf-brand">nama</div>
+        <div class="cf-tag">Debit</div>
+      </div>
+      <svg class="cf-mark" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"><path d="M12 46V18l22 20V10l18 16v28"/></svg>
+      <div class="cf-chip-row">
+        <div class="cf-chip"></div>
+        <svg class="cf-wave" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M8.5 9a4.5 4.5 0 0 1 0 6"/><path d="M12 6.5a8.5 8.5 0 0 1 0 11"/><path d="M15.5 4a12.5 12.5 0 0 1 0 16"/></svg>
+      </div>
+      <div class="cf-pan"><span>&bull;&bull;&bull;&bull;</span><span>&bull;&bull;&bull;&bull;</span><span>&bull;&bull;&bull;&bull;</span><b>8599</b></div>
+      <div class="cf-foot">
+        <div class="cf-holder">
+          <div class="cf-name">Tameer Al Harbi</div>
+          <div class="cf-exp">Valid thru 09/29</div>
+        </div>
+        <div class="cf-schemes">
+          <div class="cf-mada"><i></i><i></i>mada</div>
+          <div class="cf-visa">VISA<span>Debit</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="h2" data-freeze-state data-off="Freeze your card" data-on="Your card is frozen">Freeze your card</div>
+    <div class="p" data-freeze-state data-off="Freezing blocks new transactions straight away, and you can undo it at any time." data-on="New transactions are declined until you unfreeze it. Your instalments and due dates are not affected.">Freezing blocks new transactions straight away, and you can undo it at any time.</div>
+
+    <div class="h3">While the card is frozen</div>
+    <div class="card">
+      <div class="row"><span class="lbl">New purchases, online and ATM</span><span class="val">Declined</span></div>
+      <div class="row"><span class="lbl">Instalments and due dates</span><span class="val">Unchanged</span></div>
+      <div class="row" style="border-bottom:none;"><span class="lbl">Statement and amount due</span><span class="val">Unchanged</span></div>
+    </div>
+
+    <div class="insight-strip neutral"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><path d="M12 16h.01"/></svg><span>Freezing is reversible and does not cancel your card. If your card is lost or stolen, request a replacement instead.</span></div>
+    <a class="btn-link" href="card-replace.html" data-nav style="display:block;text-align:center;margin-top:10px;">My card is lost or stolen</a>
+    </div>
+    <div class="footer"><button type="button" class="btn btn-primary" data-freeze-toggle><span class="label" data-freeze-label data-off="Freeze card" data-on="Unfreeze card">Freeze card</span></button><a class="btn btn-secondary" href="card-controls.html" data-nav><span class="label">Done</span></a></div>
+
+  </div>
+  <div class="home-indicator"></div>
+  </div>
+</div>
+<script src="js/app.js?v=1792947311"></script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Settlement Amount — NAMA</title>
+<link rel="stylesheet" href="css/styles.css?v=1792947311">
+</head>
+<body>
+<div class="device">
+  <div class="screen">
+<div class="notch"></div><div class="statusbar"><span>9:41</span><div class="icons">
+  <svg class="icon-signal" viewBox="0 0 18 12" width="18" height="12" fill="currentColor"><rect x="0" y="7" width="3" height="5" rx=".5"/><rect x="5" y="5" width="3" height="7" rx=".5"/><rect x="10" y="3" width="3" height="9" rx=".5"/><rect x="15" y="0" width="3" height="12" rx=".5"/></svg>
+  <svg class="icon-battery" viewBox="0 0 25 12" width="22" height="11" fill="none"><rect x="0.5" y="0.5" width="20" height="11" rx="2.5" stroke="currentColor"/><rect x="2" y="2" width="17" height="8" rx="1" fill="currentColor"/><rect x="21.5" y="4" width="2" height="4" rx="1" fill="currentColor"/></svg>
+</div></div>
+  <div class="page ">
+    <div class="app-header"><a class="icon-btn" href="card-early-settlement.html" onclick="return true"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7" /></svg></a><div class="title">Settlement Amount</div></div>
+    <div class="body">
+    <div class="center" style="padding-top:4px;">
+      <div class="small">Payable on 30 Oct 2026</div>
+      <div class="big-amount">SAR 19,616.67</div>
+    </div>
+
+    <div class="card">
+      <div class="row"><span class="lbl">Outstanding principal</span><span class="val">SAR 19,166.67</span></div>
+      <div class="row"><span class="lbl">Profit to 30 Oct 2026 (3 months)</span><span class="val">SAR 450.00</span></div>
+      <div class="row row-emphasis"><span class="lbl">Settlement amount</span><span class="val val-lg">SAR 19,616.67</span></div>
+      <div class="row" style="border-bottom:none;"><span class="lbl">Profit rebated to you</span><span class="val">SAR 3,000.00</span></div>
+    </div>
+    <div class="hint card-hint">You pay SAR 3,000.00 less than the SAR 22,616.67 you would pay over the remaining 23 instalments.</div>
+
+    <div class="h3">Pay by</div>
+    <div class="pick-list" data-pick-group="setpay">
+      <button type="button" class="pick-item on" data-pick-href="card-early-settlement-success.html">
+        <span class="pick-radio"></span>
+        <span class="pick-body"><span class="pick-t">Debit or credit card</span><span class="pick-d">Through the NAMA payment gateway</span></span>
+      </button>
+      <button type="button" class="pick-item" data-pick-href="card-early-settlement-success.html">
+        <span class="pick-radio"></span>
+        <span class="pick-body"><span class="pick-t">Bank transfer</span><span class="pick-d">You are given the transfer details to complete</span></span>
+      </button>
+    </div>
+
+    <div class="insight-strip neutral"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><path d="M12 16h.01"/></svg><span>The facility is closed once the Settlement Checker confirms a zero balance. The quote holds for the date you chose.</span></div>
+    </div>
+    <div class="footer"><a class="btn btn-primary" data-pick-cta data-pick-route="setpay" href="card-early-settlement-success.html" data-nav><span class="label">Pay SAR 19,616.67</span><span class="spinner"></span></a><a class="btn btn-secondary" href="loan-summary.html" data-nav><span class="label">Not now</span></a></div>
+
+  </div>
+  <div class="home-indicator"></div>
+  </div>
+</div>
+<script src="js/app.js?v=1792947311"></script>
+</body>
+</html>

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Promissory Note — NAMA</title>
-<link rel="stylesheet" href="css/styles.css?v=1792754303">
+<link rel="stylesheet" href="css/styles.css?v=1792947311">
 </head>
 <body>
 <div class="device">
@@ -14,25 +14,39 @@
   <svg class="icon-battery" viewBox="0 0 25 12" width="22" height="11" fill="none"><rect x="0.5" y="0.5" width="20" height="11" rx="2.5" stroke="currentColor"/><rect x="2" y="2" width="17" height="8" rx="1" fill="currentColor"/><rect x="21.5" y="4" width="2" height="4" rx="1" fill="currentColor"/></svg>
 </div></div>
   <div class="page ">
-    <div class="app-header"><a class="icon-btn" href="apply-sign-contract.html" onclick="return true"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7" /></svg></a><div class="title">Promissory Note</div></div>
+    <div class="app-header"><a class="icon-btn" href="apply-contract-success.html" onclick="return true"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7" /></svg></a><div class="title">Promissory Note</div></div>
     <div class="body">
-    <div class="stepper-wrap-ring">
-    <div class="ring-progress" style="--pct:100;"><span class="ring-label">7/7</span></div>
-    <div class="step-label"><span>Step <b>7</b> of 7</span><span>Sign & Finalize</span></div>
-  </div>
     <div class="h2">Promissory note</div>
-    <div class="p">Please review and sign the promissory note to complete disbursement.</div>
-    <div class="doc-preview"><svg viewBox="0 0 24 24" width="34" height="34" fill="currentColor" stroke="none"><path d="M6 2h8l6 6v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/><path d="M14 2v6h6" fill-opacity=".35"/></svg><span class="small">Document preview</span></div>
-    <div class="center" style="margin-top:14px;">
-      <div class="countdown" data-countdown="15:36" data-expired-text="Session expired — please restart signing">⏱ <span class="cd-time">15:36</span> remaining to sign</div>
-      <div class="small" style="margin-top:8px;">If time runs out, you can safely restart — none of your progress on the loan itself is lost.</div>
-    </div></div>
-    <div class="footer"><a class="btn btn-primary" href="apply-success.html" data-nav data-pick-route="disb" data-pick-route-map='{"bank":"apply-disbursement-success.html","card":"apply-success.html"}'><span class="label">Proceed</span><span class="spinner"></span></a><a class="btn-link" href="apply-tracker.html" data-nav >Decline</a></div>
-    
+    <div class="p">Review the promissory note from Nafith and accept it below. You stay inside the NAMA app throughout.</div>
+
+    <div class="embed-frame">
+      <div class="embed-bar">
+        <span class="embed-host">Nafith &middot; نافذ</span>
+        <span class="embed-secure">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10" width="15" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+          Secure
+        </span>
+      </div>
+      <div class="embed-body">
+        <div class="embed-title">سند لأمر &middot; Promissory Note</div>
+        <div class="kv-list">
+      <div class="kv-row"><span class="k">Note reference</span><span class="v">NFT-2026-118427</span></div>
+      <div class="kv-row"><span class="k">Issuer</span><span class="v">Tameer Al Harbi</span></div>
+      <div class="kv-row"><span class="k">Beneficiary</span><span class="v">NAMA United Financing Company</span></div>
+      <div class="kv-row"><span class="k">Amount</span><span class="v">SAR 23,600.00</span></div>
+      <div class="kv-row"><span class="k">Tenure</span><span class="v">24 months</span></div>
+      <div class="kv-row"><span class="k">First instalment</span><span class="v">5 Oct 2026</span></div>
+        </div>
+        <div class="embed-text">I, the undersigned, unconditionally promise to pay NAMA United Financing Company the amount stated above in accordance with the agreed repayment schedule. This note is registered with Nafith under the Ministry of Justice.</div>
+      </div>
+    </div>
+    </div>
+    <div class="footer"><a class="btn btn-primary" href="apply-promissory-waiting.html" data-nav><span class="label">Accept and register</span><span class="spinner"></span></a><a class="btn btn-secondary" href="apply-tracker.html" data-nav data-confirm="Declining the promissory note stops the disbursement of your financing." data-confirm-label="Decline"><span class="label">Decline</span></a></div>
+
   </div>
   <div class="home-indicator"></div>
   </div>
 </div>
-<script src="js/app.js"></script>
+<script src="js/app.js?v=1792947311"></script>
 </body>
 </html>

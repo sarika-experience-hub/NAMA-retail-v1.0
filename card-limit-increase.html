@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Limit Increase — NAMA</title>
+<link rel="stylesheet" href="css/styles.css?v=1792947311">
+</head>
+<body>
+<div class="device">
+  <div class="screen">
+<div class="notch"></div><div class="statusbar"><span>9:41</span><div class="icons">
+  <svg class="icon-signal" viewBox="0 0 18 12" width="18" height="12" fill="currentColor"><rect x="0" y="7" width="3" height="5" rx=".5"/><rect x="5" y="5" width="3" height="7" rx=".5"/><rect x="10" y="3" width="3" height="9" rx=".5"/><rect x="15" y="0" width="3" height="12" rx=".5"/></svg>
+  <svg class="icon-battery" viewBox="0 0 25 12" width="22" height="11" fill="none"><rect x="0.5" y="0.5" width="20" height="11" rx="2.5" stroke="currentColor"/><rect x="2" y="2" width="17" height="8" rx="1" fill="currentColor"/><rect x="21.5" y="4" width="2" height="4" rx="1" fill="currentColor"/></svg>
+</div></div>
+  <div class="page ">
+    <div class="app-header"><a class="icon-btn" href="card.html" onclick="return true"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7" /></svg></a><div class="title">Limit Increase</div></div>
+    <div class="body">
+    <div class="h2">Request a limit increase</div>
+    <div class="p">Tell us how much more you need. We assess the request as a new financing, so you will go through the application and sign a new contract.</div>
+
+    <div class="card">
+      <div class="limit-row">
+        <div class="limit-head">Your card today</div>
+        <div class="limit-val"><span class="cur">SAR</span><span class="num">20,000</span></div>
+        <div class="limit-bar"><i style="width:7.8%"></i></div>
+        <div class="limit-used">SAR 1,557.86 used &middot; SAR 18,442.14 available</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Additional limit you need</label>
+      <div class="sar-input-row">
+        <span class="sar-prefix"><span class="code">SAR</span></span>
+        <input class="input sar-number-input" type="text" data-inc-display readonly value="15,000.00">
+      </div>
+    </div>
+    <input type="range" min="5000" max="40000" step="1000" value="15000" data-inc-range style="width:100%;margin:6px 0 4px;">
+    <div class="range-minmax"><span>SAR 5,000</span><span>SAR 40,000</span></div>
+
+    <div class="card">
+      <div class="row"><span class="lbl">Limit today</span><span class="val">SAR 20,000.00</span></div>
+      <div class="row"><span class="lbl">Additional limit requested</span><span class="val" data-inc-extra>SAR 15,000.00</span></div>
+      <div class="row row-emphasis" style="border-bottom:none;"><span class="lbl">New total limit if approved</span><span class="val val-lg" data-inc-total>SAR 35,000.00</span></div>
+    </div>
+
+    <div class="h3">What happens next</div>
+    <div class="card">
+      <div class="row"><span class="lbl">1 &middot; Application</span><span class="val">The full form again</span></div>
+      <div class="row"><span class="lbl">2 &middot; Checks</span><span class="val">Yakeen, GOSI, SIMAH</span></div>
+      <div class="row"><span class="lbl">3 &middot; Offer and contract</span><span class="val">A new Tawarruq</span></div>
+      <div class="row" style="border-bottom:none;"><span class="lbl">4 &middot; Limit applied</span><span class="val">To this card</span></div>
+    </div>
+
+    <div class="insight-strip neutral"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><path d="M12 16h.01"/></svg><span>No new card is issued. If a limit is allocated it is added to your card &middot;&middot; 8599. Your current financing and its instalments continue unchanged.</span></div>
+    </div>
+    <div class="footer"><a class="btn btn-primary" href="card-limit-increase-submitted.html" data-nav data-increase-start><span class="label">Continue</span><span class="spinner"></span></a></div>
+
+  </div>
+  <div class="home-indicator"></div>
+  </div>
+</div>
+<script src="js/app.js?v=1792947311"></script>
+</body>
+</html>
