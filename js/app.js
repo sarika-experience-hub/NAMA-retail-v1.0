@@ -1273,7 +1273,8 @@ function initCardFreeze(){
     btn.addEventListener('click', ()=>{
       const face = document.querySelector('[data-card-face]');
       const pill = document.querySelector('[data-card-status]');
-      const label = btn.querySelector('.qa-label') || btn;
+      const label = btn.querySelector('.qa-label') || btn.querySelector('[data-freeze-label]') || document.querySelector('[data-freeze-label]');
+      const states = document.querySelectorAll('[data-freeze-state]');
       const frozen = face && face.classList.toggle('frozen');
       if(face){
         let frost = face.querySelector('.cf-frost');
@@ -1290,7 +1291,12 @@ function initCardFreeze(){
         pill.textContent = frozen ? 'Frozen' : 'Active';
         pill.className = frozen ? 'badge badge-warning' : 'badge badge-success';
       }
-      if(label) label.textContent = frozen ? 'Unfreeze' : 'Freeze';
+      if(label){
+        label.textContent = (label.dataset.on || label.dataset.off)
+          ? (frozen ? label.dataset.on : label.dataset.off)
+          : (frozen ? 'Unfreeze' : 'Freeze');
+      }
+      states.forEach(function(el){ el.innerHTML = frozen ? el.dataset.on : el.dataset.off; });
       showToast(frozen ? 'Card frozen — no new transactions' : 'Card unfrozen');
     });
   });
@@ -1383,6 +1389,75 @@ function initRevealTimer(){
   tick();
 }
 
+/* ---- Journey C · limit increase mode (RET-02 CS-11, steps L2-L9) ----
+   A limit increase runs the Journey B screens again. Nothing changes for
+   a customer applying normally: the flag is only set when the customer
+   starts from the servicing menu, and every branch below is inert
+   without it. The difference is the ending — L8 adds the limit to the
+   card already issued instead of issuing a new one.                   */
+/* ---- Journey C · limit increase amount (RET-02 CS-11, step L1) ----
+   The customer enters the extra limit wanted and the new total is shown
+   beside it, so the screen reads correctly whichever way Q-42 is
+   answered. The range and step are placeholders until it is.        */
+function initLimitIncreaseAmount(){
+  var CURRENT = 20000;
+  var money = function(n){ return 'SAR ' + n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); };
+  var range = document.querySelector('[data-inc-range]');
+  var display = document.querySelector('[data-inc-display]');
+  var extraOut = [].slice.call(document.querySelectorAll('[data-inc-extra]'));
+  var totalOut = [].slice.call(document.querySelectorAll('[data-inc-total]'));
+  if(!range && !extraOut.length && !totalOut.length) return;
+
+  function paint(extra){
+    if(display) display.value = extra.toLocaleString('en-US',{minimumFractionDigits:2});
+    extraOut.forEach(function(e){ e.textContent = money(extra); });
+    totalOut.forEach(function(e){ e.textContent = money(CURRENT + extra); });
+  }
+  if(range){
+    var sync = function(){
+      var v = Number(range.value);
+      try { sessionStorage.setItem('nama:incExtra', String(v)); } catch(e){}
+      paint(v);
+    };
+    updateRangeFill(range);
+    sync();
+    range.addEventListener('input', function(){ updateRangeFill(range); sync(); });
+  } else {
+    var saved = Number(sessionStorage.getItem('nama:incExtra'));
+    if(saved) paint(saved);
+  }
+}
+
+function initIncreaseMode(){
+  document.querySelectorAll("[data-increase-start]").forEach(function(el){
+    el.addEventListener("click", function(){ sessionStorage.setItem("nama:mode","increase"); });
+  });
+  document.querySelectorAll("[data-increase-end]").forEach(function(el){
+    el.addEventListener("click", function(){ sessionStorage.removeItem("nama:mode"); });
+  });
+
+  if(sessionStorage.getItem("nama:mode") !== "increase") return;
+  var page = currentPageName();
+  if(!/^apply-/.test(page)) return;
+
+  /* L8: no new card is issued */
+  document.querySelectorAll('a[href="apply-success.html"]').forEach(function(a){
+    a.setAttribute("href","card-limit-increase-success.html");
+  });
+
+  /* say which request this is, so the customer is not left wondering
+     why they are filling the application in a second time */
+  var body = document.querySelector(".body");
+  if(body && !body.querySelector("[data-increase-banner]")){
+    var s = document.createElement("div");
+    s.className = "insight-strip neutral";
+    s.setAttribute("data-increase-banner","");
+    s.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><path d="M12 16h.01"/></svg>' +
+      '<span>Limit increase · this adds to the card you already hold. No new card is issued.</span>';
+    body.insertBefore(s, body.firstChild);
+  }
+}
+
 document.addEventListener('DOMContentLoaded', ()=>{
   initFlowEnterTransition();
   initRipple();
@@ -1429,5 +1504,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
   initRevealTimer();
   initSheets();
   initLimitEdit();
+  initIncreaseMode();
+  initLimitIncreaseAmount();
   updateContinueState();
 });

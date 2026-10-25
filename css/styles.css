@@ -1003,28 +1003,67 @@ svg[stroke-width="3"]{ stroke-width:2.4; }
   box-shadow:0 14px 30px rgba(16,38,48,.28);
   -webkit-tap-highlight-color:transparent;
 }
+/* light spread across the card instead of one loaded corner */
 .card-face::after{
-  content:""; position:absolute; right:-46px; top:-30px; width:210px; height:210px;
-  border-radius:50%; background:radial-gradient(circle at 30% 30%, rgba(16,185,129,.34), rgba(16,185,129,0) 70%);
-  pointer-events:none;
+  content:""; position:absolute; inset:0; pointer-events:none;
+  background:
+    radial-gradient(115% 85% at 90% 6%, rgba(16,185,129,.30), rgba(16,185,129,0) 58%),
+    radial-gradient(85% 65% at 6% 102%, rgba(255,255,255,.09), rgba(255,255,255,0) 62%);
 }
-.cf-brand{ font-size:17px; font-weight:800; letter-spacing:.04em; position:relative; z-index:1; }
+
+/* top row: brand, and the card type when there is one */
+.cf-top{ display:flex; align-items:center; gap:9px; position:relative; z-index:1; }
+.cf-brand{ font-size:17px; font-weight:800; letter-spacing:.04em; }
+.cf-tag{
+  font-size:8.5px; font-weight:800; letter-spacing:.1em; text-transform:uppercase;
+  padding:3px 8px; border-radius:var(--radius-pill); opacity:.92;
+  background:rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.24);
+}
+
+/* chip and contactless, the way they sit on a real card */
+.cf-chip-row{ display:flex; align-items:center; gap:11px; margin-top:15px; position:relative; z-index:1; }
+.cf-chip{
+  width:34px; height:26px; border-radius:5px; flex:none; position:relative;
+  background:linear-gradient(135deg,#EBD6A0 0%,#C9A758 46%,#F0E2B8 68%,#B38F3C 100%);
+  box-shadow:inset 0 0 0 .5px rgba(0,0,0,.2);
+}
+.cf-chip::before,.cf-chip::after{ content:""; position:absolute; background:rgba(28,22,8,.3); }
+.cf-chip::before{ left:3px; right:3px; top:50%; height:1px; }
+.cf-chip::after{ top:4px; bottom:4px; left:50%; width:1px; }
+.cf-wave{ width:17px; height:17px; flex:none; opacity:.7; }
+
+/* the watermark sits behind, off to the right */
 .cf-mark{
-  position:absolute; left:50%; top:52%; transform:translate(-50%,-50%);
-  width:118px; height:118px; opacity:.20; color:var(--success);
+  position:absolute; right:14px; top:48%; transform:translateY(-50%);
+  width:108px; height:108px; opacity:.14; color:var(--success); z-index:0;
 }
-.cf-schemes{ position:absolute; right:20px; top:52px; display:flex; flex-direction:column; align-items:flex-end; gap:9px; z-index:1; }
-.cf-mada{ display:flex; flex-direction:column; align-items:flex-end; gap:2px; font-size:9.5px; font-weight:700; letter-spacing:.06em; opacity:.95; }
-.cf-mada i{ display:block; width:26px; height:3.5px; background:#fff; border-radius:1px; }
-.cf-mada i:nth-child(2){ width:20px; }
-.cf-visa{ font-size:16px; font-weight:800; font-style:italic; letter-spacing:-.02em; line-height:1; }
-.cf-visa span{ display:block; font-size:7.5px; font-style:normal; font-weight:600; letter-spacing:.08em; text-align:right; opacity:.85; }
+
 .cf-pan{
   margin-top:auto; font-size:17px; font-weight:700; letter-spacing:.08em;
   display:flex; align-items:center; gap:9px; position:relative; z-index:1;
   font-variant-numeric:tabular-nums;
 }
 .cf-pan b{ letter-spacing:.02em; font-weight:800; }
+
+/* bottom row: holder and expiry on the left, scheme marks on the right */
+.cf-foot{
+  margin-top:12px; display:flex; align-items:flex-end; justify-content:space-between;
+  gap:12px; position:relative; z-index:1;
+}
+.cf-holder{ min-width:0; }
+.cf-name{
+  font-size:11.5px; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.cf-exp{ margin-top:4px; font-size:8.5px; font-weight:600; letter-spacing:.09em; text-transform:uppercase; opacity:.7; }
+
+.cf-schemes{ display:flex; flex-direction:row; align-items:flex-end; gap:11px; flex:none; }
+.cf-mada{ display:flex; flex-direction:column; align-items:flex-end; gap:2px; font-size:9px; font-weight:700; letter-spacing:.06em; opacity:.95; }
+.cf-mada i{ display:block; width:22px; height:3px; background:#fff; border-radius:1px; }
+.cf-mada i:nth-child(2){ width:16px; }
+.cf-visa{ font-size:15px; font-weight:800; font-style:italic; letter-spacing:-.02em; line-height:1; }
+.cf-visa span{ display:block; font-size:7px; font-style:normal; font-weight:600; letter-spacing:.08em; text-align:right; opacity:.85; }
+
 .card-face .cf-pill{
   position:absolute; right:16px; top:16px; z-index:2;
   display:inline-flex; align-items:center; gap:6px; background:rgba(255,255,255,.16);
@@ -1039,6 +1078,7 @@ svg[stroke-width="3"]{ stroke-width:2.4; }
 .card-face.frozen{ background:linear-gradient(145deg,#5C7079 0%,#42565F 60%,#35474F 100%); }
 .card-face.frozen::after{ background:radial-gradient(circle at 30% 30%, rgba(255,255,255,.20), rgba(255,255,255,0) 68%); }
 .card-face.frozen .cf-mark{ color:#fff; opacity:.14; }
+.card-face.frozen .cf-chip{ filter:grayscale(.55) brightness(.9); }
 .cf-frost{
   position:absolute; inset:0; z-index:3; display:flex; flex-direction:column;
   align-items:center; justify-content:center; gap:8px;
@@ -1047,17 +1087,19 @@ svg[stroke-width="3"]{ stroke-width:2.4; }
 }
 .cf-frost svg{ width:26px; height:26px; }
 
-/* virtual badge */
-.cf-tag{
-  position:absolute; left:20px; bottom:52px; z-index:1; font-size:9.5px; font-weight:700;
-  letter-spacing:.1em; text-transform:uppercase; opacity:.7;
-}
-
 /* smaller card face for tiles + confirmation screens */
-.card-face.sm{ aspect-ratio:auto; padding:14px 16px; border-radius:14px; box-shadow:0 8px 18px rgba(16,38,48,.22); }
-.card-face.sm .cf-brand{ font-size:13px; }
-.card-face.sm .cf-pan{ font-size:13.5px; margin-top:14px; letter-spacing:.06em; }
-.card-face.sm .cf-mark{ width:60px; height:60px; }
+.card-face.sm{ aspect-ratio:1.585 / 1; padding:7px 8px; border-radius:7px; box-shadow:0 5px 12px rgba(16,38,48,.24); }
+.card-face.sm .cf-top{ gap:4px; }
+.card-face.sm .cf-brand{ font-size:8px; letter-spacing:.02em; }
+.card-face.sm .cf-tag{ display:none; }
+.card-face.sm .cf-chip-row{ margin-top:5px; gap:4px; }
+.card-face.sm .cf-chip{ width:13px; height:10px; border-radius:2px; }
+.card-face.sm .cf-chip::before{ left:1.5px; right:1.5px; }
+.card-face.sm .cf-chip::after{ top:2px; bottom:2px; }
+.card-face.sm .cf-wave{ display:none; }
+.card-face.sm .cf-pan{ font-size:8px; margin-top:auto; letter-spacing:.04em; gap:3px; }
+.card-face.sm .cf-foot{ display:none; }
+.card-face.sm .cf-mark{ width:34px; height:34px; right:4px; opacity:.16; }
 .card-face.sm .cf-schemes{ top:auto; bottom:14px; right:16px; flex-direction:row; align-items:flex-end; gap:8px; }
 
 /* ---------------- balance ---------------- */
@@ -1102,8 +1144,8 @@ svg[stroke-width="3"]{ stroke-width:2.4; }
   transform:scale(0); transition:transform .18s var(--ease-spring,var(--ease));
 }
 .pick-item .pick-body{ flex:1; min-width:0; }
-.pick-item .pick-t{ font-size:14.5px; font-weight:700; color:var(--ink); }
-.pick-item .pick-d{ font-size:12px; color:var(--body-text); line-height:1.5; margin-top:3px; }
+.pick-item .pick-t{ display:block; font-size:14.5px; font-weight:700; color:var(--ink); }
+.pick-item .pick-d{ display:block; font-size:12px; color:var(--body-text); line-height:1.5; margin-top:3px; }
 .pick-item .pick-meta{ font-size:11px; color:var(--muted); margin-top:7px; display:flex; align-items:center; gap:5px; }
 .pick-item.on{ border-color:var(--primary); background:var(--primary-light); }
 .pick-item.on .pick-radio{ border-color:var(--primary); }
@@ -1600,6 +1642,25 @@ a:focus-visible, button:focus-visible, .pick-item:focus-visible, .check-row:focu
   font-size:11.5px; font-weight:700; letter-spacing:.02em; text-transform:none; color:var(--primary);
 }
 
+/* a bare .h3 is the same section heading as .sec-head, just without a
+   link beside it, so it carries the same navy rule. Without this the
+   app showed two different section-heading styles side by side. */
+.h3{
+  position:relative; padding-left:11px; margin:24px 0 12px;
+  font-size:11.5px; font-weight:800; letter-spacing:.07em; text-transform:uppercase;
+  color:var(--primary); opacity:1;
+}
+.h3::before{
+  content:''; position:absolute; left:0; top:1px; bottom:1px;
+  width:3px; border-radius:2px; background:var(--primary);
+}
+/* inside a .sec-head the row already draws the rule */
+.sec-head .h3{ padding-left:0; }
+.sec-head .h3::before{ content:none; }
+/* the terms document keeps its own plain headings */
+.terms-page .h3{ padding-left:0; color:var(--ink); }
+.terms-page .h3::before{ content:none; }
+
 /* field labels: small, uppercase, letterspaced */
 .field label, .field-label{
   font-size:10.5px; font-weight:800; letter-spacing:.06em; text-transform:uppercase;
@@ -1834,3 +1895,22 @@ a:focus-visible, button:focus-visible, .pick-item:focus-visible, .check-row:focu
 
 /* the NAMA mark is navy; knock it out to white on dark grounds */
 .on-dark{ filter:brightness(0) invert(1); }
+
+/* a declined application */
+.badge-danger{ background:var(--danger-light); color:var(--danger); border-color:rgba(229,62,62,.35); }
+
+/* a third-party page shown inside the app (Nafith) — framed so the customer
+   can see it is another service, without ever leaving (ONB-BR-04) */
+.embed-frame{
+  border:1px solid var(--line); border-radius:var(--radius-md);
+  overflow:hidden; background:var(--surface); margin-bottom:16px;
+}
+.embed-bar{
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+  padding:9px 13px; background:var(--primary); color:var(--text-inverse);
+}
+.embed-host{ font-size:12.5px; font-weight:800; letter-spacing:.02em; }
+.embed-secure{ display:inline-flex; align-items:center; gap:5px; font-size:10.5px; font-weight:700; opacity:.85; }
+.embed-body{ padding:14px; }
+.embed-title{ font-size:13.5px; font-weight:800; color:var(--ink); margin-bottom:12px; text-align:center; }
+.embed-text{ font-size:12.5px; line-height:1.7; color:var(--body-text); margin-top:12px; }
