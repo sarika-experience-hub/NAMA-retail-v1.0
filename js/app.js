@@ -178,15 +178,22 @@ function initNumericSteppers(){
 }
 
 /* ---------- PIN keypad ---------- */
-function isWeakPin(digits){
-  if(digits.every(d=>d===digits[0])) return true; // e.g. 000000
-  const nums = digits.map(Number);
-  let ascending = true, descending = true;
-  for(let i=1;i<nums.length;i++){
-    if(nums[i] !== nums[i-1]+1) ascending = false;
-    if(nums[i] !== nums[i-1]-1) descending = false;
-  }
-  return ascending || descending; // e.g. 123456 or 654321
+
+/* ---- Journey C · which PIN flow is running (CS-02 activation vs CS-08 reset)
+   Set PIN and Confirm PIN are shared by both. The flag is set only when the
+   customer starts from Reset PIN, so activation still ends on Card ready and
+   nothing about it changes. Runs before initPin, which reads data-next once. */
+function initPinFlow(){
+  document.querySelectorAll('[data-pin-reset]').forEach(function(el){
+    el.addEventListener('click', function(){
+      try { sessionStorage.setItem('nama:pinFlow','reset'); } catch(e){}
+    });
+  });
+  if(currentPageName() !== 'card-confirm-pin') return;
+  if(sessionStorage.getItem('nama:pinFlow') !== 'reset') return;
+  var pad = document.querySelector('.keypad');
+  if(pad) pad.setAttribute('data-next','card-pin-success.html');
+  try { sessionStorage.removeItem('nama:pinFlow'); } catch(e){}
 }
 
 function initPin(){
@@ -243,9 +250,6 @@ function initPin(){
           setStatus('PIN confirmed', false);
         } else if(isLogin){
           setStatus('PIN verified', false);
-        } else if(isWeakPin(val)){
-          setTimeout(()=> shakeAndReset('Avoid easy-to-guess PINs like 123456 or 000000.'), 150);
-          return;
         } else {
           sessionStorage.setItem('azf_pin_tmp', val.join(''));
         }
@@ -1467,6 +1471,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
   initCheckRows();
   initSwitches();
   initNumericSteppers();
+  initPinFlow();
   initPin();
   initOtpInputs();
   initCountdowns();
