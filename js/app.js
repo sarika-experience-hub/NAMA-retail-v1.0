@@ -1462,12 +1462,94 @@ function initIncreaseMode(){
   }
 }
 
+/* ---- Journey C · notifications inbox (RET-02 CS-19 / S-C18, BR-39) ----
+   The category filter, the read state and the unread count on the bell.
+   The count is shared, so it is kept outside the markup: the inbox writes
+   it when something is read, every bell reads it back.                 */
+var NOTIF_KEY = 'nama:notifUnread';
+
+function notifUnread(){
+  var v = null;
+  try { v = localStorage.getItem(NOTIF_KEY); } catch(e){}
+  return v === null ? null : Number(v);
+}
+function setNotifUnread(n){
+  try { localStorage.setItem(NOTIF_KEY, String(n)); } catch(e){}
+}
+
+function initNotifications(){
+  /* the bell, on any screen that has one */
+  document.querySelectorAll('[data-notif-count]').forEach(function(el){
+    var n = notifUnread();
+    if(n === null) n = Number(el.textContent) || 0;   /* first run: the markup is the seed */
+    el.textContent = n;
+    el.hidden = n === 0;
+  });
+
+  var rows = [].slice.call(document.querySelectorAll('[data-notif]'));
+  if(!rows.length) return;
+
+  /* read state survives leaving the inbox and coming back */
+  var readIds = [];
+  try { readIds = JSON.parse(localStorage.getItem('nama:notifRead') || '[]'); } catch(e){}
+  rows.forEach(function(r, i){
+    if(readIds.indexOf(i) > -1) r.classList.remove('unread');
+  });
+
+  function recount(){
+    var n = rows.filter(function(r){ return r.classList.contains('unread'); }).length;
+    setNotifUnread(n);
+    var ids = [];
+    rows.forEach(function(r, i){ if(!r.classList.contains('unread')) ids.push(i); });
+    try { localStorage.setItem('nama:notifRead', JSON.stringify(ids)); } catch(e){}
+  }
+  recount();
+
+  /* tapping marks it read, then opens the related screen */
+  rows.forEach(function(r){
+    r.addEventListener('click', function(){ r.classList.remove('unread'); recount(); });
+  });
+
+  var all = document.querySelector('[data-notif-readall]');
+  if(all) all.addEventListener('click', function(e){
+    e.preventDefault();
+    rows.forEach(function(r){ r.classList.remove('unread'); });
+    recount();
+    showToast('All notifications marked as read');
+  });
+
+  /* category filter; day headings hide when their day empties out */
+  var empty = document.querySelector('[data-notif-empty]');
+  var filter = document.querySelector('[data-notif-filter]');
+  if(filter) filter.querySelectorAll('.chip').forEach(function(chip){
+    chip.addEventListener('click', function(){
+      var cat = chip.dataset.cat;
+      var shown = 0;
+      rows.forEach(function(r){
+        var on = cat === 'all' || r.dataset.cat === cat;
+        r.hidden = !on;
+        if(on) shown++;
+      });
+      document.querySelectorAll('[data-notif-day]').forEach(function(d){
+        var any = false, el = d.nextElementSibling;
+        while(el && el.hasAttribute && el.hasAttribute('data-notif')){
+          if(!el.hidden) any = true;
+          el = el.nextElementSibling;
+        }
+        d.hidden = !any;
+      });
+      if(empty) empty.hidden = shown > 0;
+    });
+  });
+}
+
 document.addEventListener('DOMContentLoaded', ()=>{
   initFlowEnterTransition();
   initRipple();
   initPageTransitions();
   initFlowBackTransition();
   initChips();
+  initNotifications();
   initCheckRows();
   initSwitches();
   initNumericSteppers();

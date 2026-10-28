@@ -1915,3 +1915,32 @@ a:focus-visible, button:focus-visible, .pick-item:focus-visible, .check-row:focu
 .embed-title{ font-size:13.5px; font-weight:800; color:var(--ink); margin-bottom:12px; text-align:center; }
 .embed-text{ font-size:12.5px; line-height:1.7; color:var(--body-text); margin-top:12px; }
 
+
+/* notifications inbox (RET-02 CS-19 / S-C18, BR-39) */
+.icon-btn .count{
+  position:absolute; top:5px; right:5px; min-width:17px; height:17px; padding:0 4px;
+  border-radius:9px; background:var(--danger); border:1.5px solid var(--surface);
+  color:#fff; font-size:9.5px; font-weight:800; line-height:14px; text-align:center;
+}
+.notif-day{
+  font-size:10.5px; font-weight:800; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--muted); margin:16px 0 8px 2px;
+}
+.notif-meta{ display:flex; flex-direction:column; align-items:flex-end; gap:6px; flex-shrink:0; margin-left:8px; }
+.notif-time{ font-size:11px; color:var(--muted); font-variant-numeric:tabular-nums; }
+.notif-dot{ width:8px; height:8px; border-radius:50%; background:transparent; }
+.list-item.notif.unread .t1{ font-weight:800; }
+.list-item.notif.unread .notif-dot{ background:var(--primary); }
+
+/* chips: pill shaped, and selected in the same corporate green the
+   pick-lists already use — chip.on, now green rather than navy */
+.chip{ border-radius:var(--radius-pill); }
+.chip.on{ background:var(--primary); border-color:var(--primary); color:var(--text-inverse); }
+.chip:hover{ border-color:rgba(0,51,102,.4); background:#F4F7FB; }
+.chip.on:hover{ background:var(--primary-hover); border-color:var(--primary-hover); }
+
+/* a filter row sizes each chip to its label and scrolls if it runs long,
+   rather than squeezing four equal columns into the width */
+.chip-group[data-notif-filter]{ gap:8px; overflow-x:auto; padding:2px 0 4px; }
+.chip-group[data-notif-filter]::-webkit-scrollbar{ display:none; }
+.chip-group[data-notif-filter] .chip{ flex:0 0 auto; padding:8px 12px; font-size:12px; letter-spacing:0; }
