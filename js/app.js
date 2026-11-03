@@ -5,6 +5,23 @@
 function goBack(){ history.length>1 ? history.back() : (location.href='index.html'); }
 
 /* ---------- ripple effect on buttons ---------- */
+/* ---- demo state ----
+   The prototype remembers things between visits: whether the customer has a
+   facility, which notifications were read, pick-list choices. That is right
+   inside one walk-through and confusing when the next one starts part-way
+   through. Launching from the app entry clears it, and ?reset on any screen
+   does the same. Must run before anything that reads the state.        */
+function initDemoReset(){
+  /* logging out ends the session, so the state goes with it - which also
+     makes the logout screen a reliable way to start a fresh walk-through */
+  if(currentPageName() !== 'logout' && !/[?&]reset/.test(location.search)) return;
+  try {
+    ['nama:hasFacility','nama:notifUnread','nama:notifRead','nama:navStack'].forEach(function(k){ localStorage.removeItem(k); });
+    Object.keys(localStorage).filter(function(k){ return k.indexOf('pick:') === 0; }).forEach(function(k){ localStorage.removeItem(k); });
+    sessionStorage.clear();
+  } catch(e){}
+}
+
 function initRipple(){
   document.querySelectorAll('.btn, .icon-btn, .keypad button, .list-item, .card.tappable, .product-card.tappable, .pick-item, .txn-row, .card-tile, .repay-row.clickable').forEach(el=>{
     el.addEventListener('click', function(e){
@@ -23,6 +40,25 @@ function initRipple(){
   });
 }
 
+/* ---------- where the customer actually came from ----------
+   Back arrows carry a fixed href, which can only ever be right for one
+   entry route; most screens have several. This keeps the real trail in
+   the session and lets the arrow fall back to its href when there is no
+   trail - a screen opened directly, for instance.                     */
+var NAV_STACK_KEY = 'nama:navStack';
+function navStack(){
+  try { return JSON.parse(sessionStorage.getItem(NAV_STACK_KEY) || '[]'); } catch(e){ return []; }
+}
+function setNavStack(a){
+  try { sessionStorage.setItem(NAV_STACK_KEY, JSON.stringify(a.slice(-30))); } catch(e){}
+}
+function pushNavStack(){
+  var here = currentPageName() + '.html';
+  var st = navStack();
+  if(st[st.length-1] !== here) st.push(here);
+  setNavStack(st);
+}
+
 /* ---------- page transition on internal nav links ---------- */
 function initPageTransitions(){
   document.querySelectorAll('a[data-nav], .btn[data-href], .bottom-nav a').forEach(el=>{
@@ -33,6 +69,7 @@ function initPageTransitions(){
       if(!href || href.startsWith('#')) return;
       e.preventDefault();
       const proceed = ()=>{
+        pushNavStack();
         const page = document.querySelector('.page');
         if(isFlowStep){
           sessionStorage.setItem('flow-nav-dir', 'fwd');
@@ -60,10 +97,14 @@ function initFlowBackTransition(){
     const href = this.getAttribute('href');
     if(!href || href.startsWith('#')) return;
     e.preventDefault();
+    var st = navStack();
+    var prev = st.pop();
+    var target = href;
+    if(prev && prev !== currentPageName() + '.html'){ setNavStack(st); target = prev; }
     sessionStorage.setItem('flow-nav-dir', 'back');
     const page = document.querySelector('.page');
     if(page){ page.classList.add('page-exit-back'); }
-    setTimeout(()=>{ location.href = href; }, 180);
+    setTimeout(()=>{ location.href = target; }, 180);
   });
 }
 
@@ -77,7 +118,8 @@ function initFlowEnterTransition(){
 }
 
 /* ---------- in-app confirm dialog (replaces native browser confirm()) ---------- */
-function showConfirmDialog(message, confirmLabel, title){
+function showConfirmDialog(message, confirmLabel, title, opts){
+  opts = opts || {};
   return new Promise(resolve=>{
     const host = document.querySelector('.screen') || document.body;
     const backdrop = document.createElement('div');
@@ -87,8 +129,8 @@ function showConfirmDialog(message, confirmLabel, title){
         <div class="confirm-title">${title || 'Are you sure?'}</div>
         <div class="confirm-msg">${message}</div>
         <div class="confirm-actions">
-          <button type="button" class="confirm-btn-danger" data-confirm-ok>${confirmLabel || 'Continue'}</button>
-          <button type="button" class="confirm-btn-cancel" data-confirm-cancel>Cancel</button>
+          <button type="button" class="${opts.tone === 'primary' ? 'confirm-btn-primary' : 'confirm-btn-danger'}" data-confirm-ok>${confirmLabel || 'Continue'}</button>
+          <button type="button" class="confirm-btn-cancel" data-confirm-cancel>${opts.cancelLabel || 'Cancel'}</button>
         </div>
       </div>`;
     host.appendChild(backdrop);
@@ -319,7 +361,7 @@ function initCountdowns(){
   document.querySelectorAll('[data-countdown]').forEach(el=>{
     let [m,s] = el.dataset.countdown.split(':').map(Number);
     let total = m*60+s;
-    const fallback = el.dataset.expiredText || 'Code expired — please request a new one';
+    const fallback = el.dataset.expiredText || 'Code expired - please request a new one';
     const timer = setInterval(()=>{
       total--;
       if(total<=0){
@@ -378,7 +420,7 @@ function initHaltReason(){
       txt.classList.add("failed"); txt.textContent = row.dataset.fail;
       note.classList.add("failed"); note.textContent = row.dataset.service;
     } else {
-      check.classList.add("skipped"); check.textContent = "—";
+      check.classList.add("skipped"); check.textContent = "-";
       txt.classList.add("skipped"); txt.textContent = row.dataset.skip || row.dataset.pass;
       note.textContent = "Not run";
     }
@@ -1265,7 +1307,7 @@ function initCopyButtons(){
         await navigator.clipboard.writeText(val);
         showToast(label + ' copied');
       }catch(e){
-        showToast('Could not copy — long-press to select');
+        showToast('Could not copy - long-press to select');
       }
     });
   });
@@ -1275,6 +1317,16 @@ function initCopyButtons(){
 function initCardFreeze(){
   document.querySelectorAll('[data-freeze-toggle]').forEach(btn=>{
     btn.addEventListener('click', ()=>{
+      /* review point 18: confirm before freezing or unfreezing. The card
+         is the thing being changed, so the question names it, and the
+         action is reversible — freezing is reversible, so the dialog
+         uses the primary tone rather than the destructive red. */
+      const isFrozenNow = !!document.querySelector('[data-card-face].frozen');
+      const q = isFrozenNow
+        ? 'Are you sure you want to unfreeze your card?'
+        : 'Are you sure you want to freeze your card?';
+      showConfirmDialog(q, 'Yes', isFrozenNow ? 'Unfreeze card' : 'Freeze card', { cancelLabel: 'No', tone: 'primary' }).then(function(ok){
+        if(!ok) return;
       const face = document.querySelector('[data-card-face]');
       const pill = document.querySelector('[data-card-status]');
       const label = btn.querySelector('.qa-label') || btn.querySelector('[data-freeze-label]') || document.querySelector('[data-freeze-label]');
@@ -1301,7 +1353,8 @@ function initCardFreeze(){
           : (frozen ? 'Unfreeze' : 'Freeze');
       }
       states.forEach(function(el){ el.innerHTML = frozen ? el.dataset.on : el.dataset.off; });
-      showToast(frozen ? 'Card frozen — no new transactions' : 'Card unfrozen');
+      showToast(frozen ? 'Card frozen - no new transactions' : 'Card unfrozen');
+      });
     });
   });
 }
@@ -1545,6 +1598,7 @@ function initNotifications(){
 
 document.addEventListener('DOMContentLoaded', ()=>{
   initFlowEnterTransition();
+  initDemoReset();
   initRipple();
   initPageTransitions();
   initFlowBackTransition();

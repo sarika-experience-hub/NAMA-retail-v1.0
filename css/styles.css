@@ -938,6 +938,7 @@ svg[stroke-width="3"]{ stroke-width:2.4; }
 .confirm-actions button:active{ opacity:.75; transform:scale(.98); }
 .confirm-btn-cancel{ background:var(--fill); color:var(--ink); }
 .confirm-btn-danger{ background:var(--danger-light); color:var(--danger); }
+.confirm-btn-primary{ background:var(--primary); color:var(--text-inverse); }
 
 /* date display field (button-styled input) */
 .date-field .input{ cursor:pointer; }
@@ -1944,3 +1945,12 @@ a:focus-visible, button:focus-visible, .pick-item:focus-visible, .check-row:focu
 .chip-group[data-notif-filter]{ gap:8px; overflow-x:auto; padding:2px 0 4px; }
 .chip-group[data-notif-filter]::-webkit-scrollbar{ display:none; }
 .chip-group[data-notif-filter] .chip{ flex:0 0 auto; padding:8px 12px; font-size:12px; letter-spacing:0; }
+
+/* quick-action tiles sit on light corporate green rather than white, so the
+   row carries some weight on an otherwise plain page. The icon circle flips
+   to white so it still reads against the tile. */
+.quick-actions a{ background:#EAF8F2; border-color:rgba(16,185,129,.22); }
+.quick-actions a .icon-circle{ background:var(--surface); color:var(--success); }
+.quick-actions a:hover{ background:#DCF5EA; border-color:var(--success); }
+.quick-actions a:hover .icon-circle{ background:var(--surface); border-color:transparent; }
+.quick-actions .qa-label{ color:var(--ink); }
