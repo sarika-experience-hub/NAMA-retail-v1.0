@@ -1954,3 +1954,9 @@ a:focus-visible, button:focus-visible, .pick-item:focus-visible, .check-row:focu
 .quick-actions a:hover{ background:#DCF5EA; border-color:var(--success); }
 .quick-actions a:hover .icon-circle{ background:var(--surface); border-color:transparent; }
 .quick-actions .qa-label{ color:var(--ink); }
+
+/* mini-steps carry a state, so a short flow can show where the customer is */
+.ms-item .ms-num{ background:var(--fill); color:var(--muted); }
+.ms-item.on{ color:var(--ink); font-weight:800; }
+.ms-item.on .ms-num{ background:var(--primary); color:var(--text-inverse); }
+.ms-item.done .ms-num{ background:var(--success-light); color:var(--success); }
