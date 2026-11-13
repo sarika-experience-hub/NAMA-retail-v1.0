@@ -986,6 +986,7 @@ function initDatePicker(){
     if(!sheet) return;
 
     const hijri = field.getAttribute('data-calendar') === 'hijri';
+    const gate = field.hasAttribute('data-age-gate');
     const months = hijri ? HIJRI_MONTHS : GREG_MONTHS;
     const display = field.querySelector('[data-date-display]');
     const daySel = sheet.querySelector('[data-day]');
@@ -1000,11 +1001,16 @@ function initDatePicker(){
       months.forEach((m,idx) => monthSel.appendChild(new Option(m, idx+1)));
       const nowG = new Date().getFullYear();
       const top = hijri ? gregorianToHijriYear(nowG) : nowG;
-      // 18 is the minimum age, 80 a sensible floor
-      for(let y = top-18; y >= top-80; y--) yearSel.appendChild(new Option(y,y));
-      daySel.value = 14;
-      monthSel.value = hijri ? 8 : 3;
-      yearSel.value = top - 35;
+      /* a date of birth is the only one with a minimum age; every other
+         field declares its own span, so the control can take a joining
+         date or a settlement date too */
+      const maxY = field.dataset.maxYear ? Number(field.dataset.maxYear) : (gate ? top-18 : top);
+      const minY = field.dataset.minYear ? Number(field.dataset.minYear) : (gate ? top-80 : top-60);
+      for(let y = maxY; y >= minY; y--) yearSel.appendChild(new Option(y,y));
+      /* open on the value the field already shows, when it has one */
+      const cur = (display && display.value || '').match(/(\d{1,2})\s*\/\s*(\d{1,2})\s*\/\s*(\d{3,4})/);
+      if(cur){ daySel.value = Number(cur[1]); monthSel.value = Number(cur[2]); yearSel.value = Number(cur[3]); }
+      else { daySel.value = 14; monthSel.value = hijri ? 8 : 3; yearSel.value = gate ? top-35 : maxY; }
     }
 
     const close = () => sheet.classList.remove('open');
@@ -1017,7 +1023,7 @@ function initDatePicker(){
       // age gate: compare like with like, so convert the Hijri year first
       const gYear = hijri ? Math.round(y / 1.0307 + 622) : y;
       const age = (Date.now() - new Date(gYear, m-1, d).getTime()) / (1000*60*60*24*365.25);
-      if(age < 18){ if(warn) warn.classList.add('show'); return; }
+      if(gate && age < 18){ if(warn) warn.classList.add('show'); return; }
       if(warn) warn.classList.remove('show');
       const pad = n => String(n).padStart(2,'0');
       if(display) display.value = pad(d) + ' / ' + pad(m) + ' / ' + y + (hijri ? 'H' : '');
