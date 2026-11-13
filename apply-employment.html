@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Employment - NAMA</title>
-<link rel="stylesheet" href="css/styles.css?v=1793783837">
+<link rel="stylesheet" href="css/styles.css?v=1794584402">
 </head>
 <body>
 <div class="device">
@@ -35,7 +35,21 @@
     </div>
     <div class="field select-field"><select class="input"><option>Private</option><option>Government</option><option>Semi-government</option><option>Non-profit</option></select><label>Sector <span class="req">*</span></label></div>
     <div class="field select-field"><select class="input"><option>Senior Engineer</option><option>Manager</option><option>Analyst</option><option>Consultant</option><option>Technician</option><option>Administrator</option></select><label>Designation <span class="req">*</span></label></div>
-    <div class="field"><input class="input" type="text" value="01 Sep 2019" required><label>Joining date <span class="req">*</span></label><div class="error-msg"></div></div>
+    <div class="field date-field" data-date-field="joinDate" data-calendar="gregorian" data-min-year="1975"><label>Joining date <span class="req">*</span></label><div class="input-wrap"><input class="input" data-date-display readonly placeholder="DD / MM / YYYY" value="01 / 09 / 2019" required><div class="suffix-icon icon-accent"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><line x1="3.5" y1="9.5" x2="20.5" y2="9.5"/><line x1="8" y1="2.5" x2="8" y2="6.5"/><line x1="16" y1="2.5" x2="16" y2="6.5"/></svg></div></div><div class="error-msg"></div></div>
+  <div class="sheet-backdrop" data-date-sheet="joinDate">
+    <div class="sheet-panel">
+      <div class="sheet-handle"></div>
+      <div class="sheet-title">Joining date</div>
+      <div class="sheet-sub">The date you started with your current employer.</div>
+      <div class="date-select-row">
+        <select data-day aria-label="Day"></select>
+        <select data-month aria-label="Month"></select>
+        <select data-year aria-label="Year"></select>
+      </div>
+      <a class="btn btn-primary" data-date-confirm><span class="label">Confirm</span></a>
+      <a class="btn btn-secondary" data-date-cancel style="margin-top:8px;"><span class="label">Cancel</span></a>
+    </div>
+  </div>
     <div class="field"><input class="input computed" type="text" value="6 years 1 month" readonly tabindex="-1"><label>Number of years of employment</label></div>
     </div>
     <div class="footer"><a class="btn btn-primary" href="apply-expenses.html" data-nav><span class="label">Next</span><span class="spinner"></span></a></div>
@@ -44,6 +58,6 @@
   <div class="home-indicator"></div>
   </div>
 </div>
-<script src="js/app.js?v=1793783837"></script>
+<script src="js/app.js?v=1794584402"></script>
 </body>
 </html>
